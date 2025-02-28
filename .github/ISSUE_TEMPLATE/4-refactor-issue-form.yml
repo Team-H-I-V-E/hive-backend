@@ -1,0 +1,23 @@
+name: '🚧 리팩토링 이슈'
+description: '멍하냥 클라이언트 레포지토리에 이슈를 생성하며, Jira와 연동됩니다.'
+labels: [refactor]
+title: '🚧 이슈 제목'
+assignees:
+  - octocat
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: '📌 Description'
+      description: '이슈에 대해서 상세히 설명해주세요'
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: '✅ Todo'
+      description: '해당 이슈에 대해 필요한 작업목록을 작성해주세요'
+      placeholder: '- [ ] Task1'
+    validations:
+      required: false
