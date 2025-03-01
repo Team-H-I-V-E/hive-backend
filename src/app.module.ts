@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { PanoramaViewerModule } from './panorama/panoramaImage.module';
 
 
 @Module({
-  imports: [],
+  imports: [PanoramaViewerModule],
   controllers: [],
   providers: [],
 })
