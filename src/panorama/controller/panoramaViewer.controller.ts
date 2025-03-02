@@ -3,4 +3,12 @@ import { PanoramaViewerService } from '../service/panoramaViewer.service';
 import { PanoramaViewer } from '../entities/panoramaViewer.entity';
 
 @Controller('api/panoramaViewers')
-export class PanoramaViewerController {}
+export class PanoramaViewerController {
+    constructor(private panoramaViewerService: PanoramaViewerService) {}
+
+    @Get('/')
+    getAllPanoramaViewers(): PanoramaViewer[] {
+        return this.panoramaViewerService.getAllPanoramaViewers();
+    }
+
+}
