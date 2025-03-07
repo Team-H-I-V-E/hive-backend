@@ -6,7 +6,7 @@ import { panoramaFavorite } from '../entities/panoramaViewerFavorite.entity';
 @Injectable()
 export class PanoramaViewerService {
     private panoramaViewers: PanoramaViewer[] = [];
-    private panoramaFavorite: panoramaFavorite[] = [];
+    private panoramaFavorites: panoramaFavorite[] = [];
 
     getAllPanoramaViewers(): PanoramaViewer[] {
         return this.panoramaViewers;
@@ -21,9 +21,12 @@ export class PanoramaViewerService {
             panoramaViewerID,
             panoramaFavoriteCreatedAt: new Date,
         }
-        this.panoramaFavorite.push(favorite);
+        this.panoramaFavorites.push(favorite);
         return favorite;
     }
     
+    deletePanoramaFavorite(panoramaFavoriteID: number): void {
+        this.panoramaFavorites = this.panoramaFavorites.filter((favorite) => favorite.panoramaFavoriteID === panoramaFavoriteID)
+    }
 
 }

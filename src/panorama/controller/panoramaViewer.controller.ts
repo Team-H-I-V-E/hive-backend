@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';//auto import
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';//auto import
 import { PanoramaViewerService } from '../service/panoramaViewer.service';
 import { PanoramaViewer } from '../entities/panoramaViewer.entity';
 import { PanoramaFavoriteRequestDto } from '../dto/panoramaFavorite/panoramaFavorite-request.dto';
@@ -15,6 +15,11 @@ export class PanoramaViewerController {
     @Post('/') // PostMapping 핸들러 데코레이터
     createBoard(@Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto)  {
         return this.panoramaViewerService.addPanoramaFavorite(panoramaFavoriteRequestDto);
+    }
+
+    @Delete('/:id')
+    deleteBoardById(@Param('id') panoramaFavoriteID: number): void{
+        this.panoramaViewerService.deletePanoramaFavorite(panoramaFavoriteID);
     }
 
 }
