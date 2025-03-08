@@ -5,10 +5,11 @@ import { PanoramaViewerRepository } from './repository/panoramaViewer-repository
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PanoramaViewer } from './entities/panoramaViewer.entity';
 import { PanoramaFavorite } from './entities/panoramaViewerFavorite.entity';
+import { PanoramaViewerImage } from './entities/panoramaImage.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PanoramaViewer, PanoramaFavorite])
+    TypeOrmModule.forFeature([PanoramaViewer, PanoramaFavorite, PanoramaViewerImage])
   ],
   controllers: [PanoramaViewerController],
   providers: [
