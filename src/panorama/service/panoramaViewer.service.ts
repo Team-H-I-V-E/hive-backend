@@ -25,7 +25,7 @@ export class PanoramaViewerService {
         return favorite;
     }
 
-    getPanoramaFavoriteByID(panoramaFavoriteID: number): panoramaFavorite {
+    foundPanoramaFavoriteByID(panoramaFavoriteID: number): panoramaFavorite {
         const favorite = this.panoramaFavorites.find((favorite) => favorite.panoramaFavoriteID === panoramaFavoriteID)
         if (!favorite) {
             throw new Error(`PanoramaFavorite with ID ${panoramaFavoriteID} not found.`);
@@ -34,7 +34,7 @@ export class PanoramaViewerService {
     }
     
     deletePanoramaFavorite(panoramaFavoriteID: number): void {
-        const foundPanoramaFavorite = this.getPanoramaFavoriteByID(panoramaFavoriteID);
+        const foundPanoramaFavorite = this.foundPanoramaFavoriteByID(panoramaFavoriteID);
         this.panoramaFavorites = this.panoramaFavorites.filter((favorite) => favorite.panoramaFavoriteID !== foundPanoramaFavorite.panoramaFavoriteID);
     }
 
