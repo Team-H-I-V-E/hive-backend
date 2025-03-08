@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class panoramaFavorite {
+export class PanoramaFavorite {
     @PrimaryGeneratedColumn()
     panoramaFavoriteID: number;
 

@@ -1,7 +1,8 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class PanoramaViewerImage {
-     @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn()
     panoramaViewerImageID: number;
 
     @Column()
