@@ -13,10 +13,10 @@ export class PanoramaViewerService {
     }
 
     addPanoramaFavorite(panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto) {
-        const {panoramaFavoriteID, userID, panoramaViewerID, } = panoramaFavoriteRequestDto;
+        const {userID, panoramaViewerID, } = panoramaFavoriteRequestDto;
 
         const favorite: panoramaFavorite = {
-            panoramaFavoriteID,
+            panoramaFavoriteID: this.panoramaFavorites.length + 1,
             userID,
             panoramaViewerID,
             panoramaFavoriteCreatedAt: new Date,
@@ -26,7 +26,7 @@ export class PanoramaViewerService {
     }
     
     deletePanoramaFavorite(panoramaFavoriteID: number): void {
-        this.panoramaFavorites = this.panoramaFavorites.filter((favorite) => favorite.panoramaFavoriteID === panoramaFavoriteID)
-    }
+        this.panoramaFavorites = this.panoramaFavorites.filter((favorite) => favorite.panoramaFavoriteID !== panoramaFavoriteID);
+    }    
 
 }
