@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class PanoramaViewerFavoriteService {
+export class PanoramaFavoriteService {
     constructor(
         @InjectRepository(PanoramaFavorite)
         private panoramaFavoriteRepository: Repository<PanoramaFavorite>

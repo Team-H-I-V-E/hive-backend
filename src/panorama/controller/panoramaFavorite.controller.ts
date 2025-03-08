@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Param, Post } from "@nestjs/common";
 import { PanoramaFavoriteRequestDto } from "../dto/panoramaFavorite/panoramaFavorite-request.dto";
-import { PanoramaViewerFavoriteService } from "../service/panoramaViewerFavorite.service";
+import { PanoramaFavoriteService } from "../service/panoramaFavorite.service";
 
 @Controller('api/panoramaViewerFavorite')
 export class PanoramaViewerController {
-    constructor(private panoramaViewerFavoriteService: PanoramaViewerFavoriteService) {}
+    constructor(private panoramaViewerFavoriteService: PanoramaFavoriteService) {}
 
     @Post('/')
     async createBoard(@Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto): Promise<void>  {
