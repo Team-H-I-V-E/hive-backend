@@ -20,6 +20,6 @@ export class PanoramaViewer {
     @Column()
     panoramaViewerImageID: number;
 
-    @Column()
+    @Column("point")
     panoramaViewerCoordinate: Point;
 }
