@@ -12,13 +12,13 @@ export class PanoramaViewerController {
         return this.panoramaViewerService.getAllPanoramaViewers();
     }
 
-    @Post('/') // PostMapping 핸들러 데코레이터
+    @Post('/')
     createBoard(@Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto)  {
         return this.panoramaViewerService.addPanoramaFavorite(panoramaFavoriteRequestDto);
     }
 
-    @Delete('/:id')
-    deleteBoardById(@Param('id') panoramaFavoriteID: number): void{
+    @Delete('/:panoramaFavoriteID')
+    deleteBoardById(@Param('panoramaFavoriteID') panoramaFavoriteID: number): void{
         this.panoramaViewerService.deletePanoramaFavorite(panoramaFavoriteID);
     }
 
