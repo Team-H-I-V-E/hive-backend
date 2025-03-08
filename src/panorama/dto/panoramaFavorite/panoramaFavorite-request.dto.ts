@@ -1,5 +1,9 @@
+import { IsNotEmpty } from "class-validator";
+
 export class PanoramaFavoriteRequestDto {
-    panoramaFavoriteID: number;
+    @IsNotEmpty()
     userID: number;
+
+    @IsNotEmpty()
     panoramaViewerID: number;
 }
