@@ -1,23 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ArticleStatus } from "./article-status.enum";
 
 @Entity()
 export class Article {
     @PrimaryGeneratedColumn()
-    id: number;
+    articleID: number;
 
     @Column()
-    author: string;
+    userID: number;
 
     @Column()
-    title: string;
+    articleTitle: string;
 
     @Column()
-    contents: string;
+    articleContents: string;
 
     @Column()
-    image: string;
+    articleImage: string;
 
     @Column()
-    status: ArticleStatus;
+    status: boolean;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    articleCreatedAt: Date;
+
+    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    articleUpdatedAt: Date;
 }
