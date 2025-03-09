@@ -2,12 +2,12 @@ import { IsNotEmpty } from "class-validator";
 
 export class CreateArticleDto {
     @IsNotEmpty()
-    author: string;
+    userID: number;
 
     @IsNotEmpty()
-    title: string;
+    articleTitle: string;
 
     @IsNotEmpty()
-    contents: string;
-    image: string;
+    articleContents: string;
+    articleImage: string;
 }

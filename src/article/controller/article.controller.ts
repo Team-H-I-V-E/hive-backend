@@ -19,8 +19,8 @@ export class ArticlesController {
 
     // 키워드(작성자)로 검색한 게시글 조회 기능
     @Get('/search/:keyword')
-    async getArticlesByKeyword(@Query('author') author: string): Promise<Article[]> {
-        const articles: Article[] = await this.articlesService.getArticlesByKeyword(author);
+    async getArticlesByKeyword(@Query('userID') userID: number): Promise<Article[]> {
+        const articles: Article[] = await this.articlesService.getArticlesByKeyword(userID);
         return articles;
     }
 
