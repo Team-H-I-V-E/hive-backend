@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';//auto import
+import { Controller, Get } from '@nestjs/common';
 import { PanoramaViewerService } from '../service/panoramaViewer.service';
 import { PanoramaViewer } from '../entities/panoramaViewer.entity';
 

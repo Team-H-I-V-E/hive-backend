@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { PanoramaViewer } from '../entities/panoramaViewer.entity';
-import { PanoramaViewerRepository } from '../repository/panoramaViewer-repository';
 
 @Injectable()
 export class PanoramaViewerService {
-    constructor(private panoramaViewerRepository: PanoramaViewerRepository) {}
+    constructor(
+        @InjectRepository(PanoramaViewer)
+        private panoramaViewerRepository: Repository<PanoramaViewer>,
+    ) {}
 
+    @Get()
+    @UsePipes(ValidationPipe)
     async getAllPanoramaViewers(): Promise<PanoramaViewer[]> {
-        const foundPanoramaViewer = await this.panoramaViewerRepository.findAll();
-        return foundPanoramaViewer;
+        const foundPanoramaViewers = await this.panoramaViewerRepository.find();
+        return foundPanoramaViewers;
     }
-
 }

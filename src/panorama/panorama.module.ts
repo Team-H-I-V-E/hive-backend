@@ -1,20 +1,24 @@
 import { Module } from '@nestjs/common';
 import { PanoramaViewerController } from './controller/panoramaViewer.controller';
 import { PanoramaViewerService } from './service/panoramaViewer.service';
-import { PanoramaViewerRepository } from './repository/panoramaViewer-repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PanoramaViewer } from './entities/panoramaViewer.entity';
 import { PanoramaFavorite } from './entities/panoramaViewerFavorite.entity';
-import { PanoramaViewerImage } from './entities/panoramaImage.entity';
+import { PanoramaImage } from './entities/panoramaImage.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PanoramaViewer, PanoramaFavorite, PanoramaViewerImage])
+    TypeOrmModule.forFeature([
+      PanoramaImage,
+      PanoramaViewer,
+      PanoramaFavorite
+    ])
   ],
-  controllers: [PanoramaViewerController],
+  controllers: [
+    PanoramaViewerController
+  ],
   providers: [
-    PanoramaViewerService, 
-    PanoramaViewerRepository,
+    PanoramaViewerService,
   ],
 })
 export class PanoramaViewerModule {}

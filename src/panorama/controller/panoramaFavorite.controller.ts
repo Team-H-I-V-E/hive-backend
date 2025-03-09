@@ -7,7 +7,7 @@ export class PanoramaViewerController {
     constructor(private panoramaViewerFavoriteService: PanoramaFavoriteService) {}
 
     @Post('/')
-    async createBoard(@Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto): Promise<void>  {
+    async createBoard(@Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto): Promise<string>  {
         return this.panoramaViewerFavoriteService.addPanoramaFavorite(panoramaFavoriteRequestDto);
     }
 

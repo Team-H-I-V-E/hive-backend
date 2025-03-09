@@ -1,6 +1,6 @@
 import { Column, Entity, Point, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity('panoramaviewer')
 export class PanoramaViewer {
     @PrimaryGeneratedColumn()
     panoramaViewerID: number;

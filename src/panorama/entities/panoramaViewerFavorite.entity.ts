@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { PanoramaViewer } from "./panoramaViewer.entity";
 
-@Entity()
+@Entity('panoramafavorite')
 export class PanoramaFavorite {
     @PrimaryGeneratedColumn()
     panoramaFavoriteID: number;
