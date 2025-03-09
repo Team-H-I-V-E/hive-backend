@@ -1,6 +1,7 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { ArticleStatus } from "./article-status.enum";
 
+@Entity()
 export class Article {
     @PrimaryGeneratedColumn()
     id: number;
@@ -15,7 +16,7 @@ export class Article {
     contents: string;
 
     @Column()
-    image: Buffer;
+    image: string;
 
     @Column()
     status: ArticleStatus;

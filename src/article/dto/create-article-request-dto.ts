@@ -9,5 +9,5 @@ export class CreateArticleDto {
 
     @IsNotEmpty()
     contents: string;
-    image: Buffer;
+    image: string;
 }
