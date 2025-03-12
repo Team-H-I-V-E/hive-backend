@@ -1,35 +1,36 @@
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class CreateHeritageDto {
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
-    heritageStoryId: number;
+    heritageStoryId?: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
-    heritageModelId: number;
+    heritageModelId?: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
-    heritage3dModelId: number;
+    heritage3dModelId?: number;
     
-    @IsNotEmpty()
     @IsString()
     heritageName: string;
 
-    @IsNotEmpty()
     @IsString()
     heritageDescription: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    heritageYear: number;
+    @IsOptional()
+    @IsString()
+    heritageYear?: string;
 
-    @IsNotEmpty()
     @IsString()
     heritageLocation: string;
 
-    @IsNotEmpty()
-    @IsString()
-    heritageCoordinate: string;
+    @IsOptional()
+    @IsNumber()
+    heritageLatitude?: number;
+
+    @IsOptional()
+    @IsNumber()
+    heritageLongitude?: number;
 }

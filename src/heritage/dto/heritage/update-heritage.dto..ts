@@ -22,14 +22,18 @@ export class UpdateHeritageDto {
     heritageDescription?: string;
 
     @IsOptional()
-    @IsNumber()
-    heritageYear?: number;
+    @IsString()
+    heritageYear?: string;
 
     @IsOptional()
     @IsString()
     heritageLocation?: string;
 
     @IsOptional()
-    @IsString()
-    heritageCoordinate?: string;
+    @IsNumber()
+    heritageLatitude?: number;
+
+    @IsOptional()
+    @IsNumber()
+    heritageLongitude?: number;
 }
