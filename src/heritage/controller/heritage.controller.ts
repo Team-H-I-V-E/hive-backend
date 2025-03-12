@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Patch, Delete, NotFoundException, Q
 import { HeritageService } from '../service/heritage.serivce';
 import { CreateHeritageDto } from '../dto/heritage/create-heritage.dto';
 import { Heritage } from '../entities/heritage.entity';
-import { UpdateHeritageDto } from '../dto/heritage/update-heritage.dto.';
+import { UpdateHeritageDto } from '../dto/heritage/update-heritage.dto';
 
 
 @Controller('api/heritages')

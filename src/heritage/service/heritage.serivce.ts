@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Heritage } from '../entities/heritage.entity';
 import { CreateHeritageDto } from '../dto/heritage/create-heritage.dto';
-import { UpdateHeritageDto } from '../dto/heritage/update-heritage.dto.';
+import { UpdateHeritageDto } from '../dto/heritage/update-heritage.dto';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 
