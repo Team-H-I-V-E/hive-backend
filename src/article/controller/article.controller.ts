@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ArticlesService } from '../service/article.service';
 import { Article } from '../entities/article.entity';
 import { CreateArticleDto } from '../dto/create-article-request-dto';
@@ -6,7 +6,6 @@ import { UpdateArticleDto } from '../dto/update-article-request-dto';
 import { ArticleResponseDto } from '../dto/article-response.dto';
 
 @Controller('api/articles')
-@UsePipes(ValidationPipe)
 export class ArticlesController {
     constructor(private articlesService: ArticlesService){}
 
