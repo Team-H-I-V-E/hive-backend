@@ -7,20 +7,17 @@ import { UpdateArticleDto } from '../dto/update-article-request-dto';
 
 @Injectable()
 export class ArticlesService {
-    // Repository 계층 DI
     constructor(
         @InjectRepository(Article)
         private articleRepository : Repository<Article>
     ){}
 
-    // 게시글 조회 기능
     async getAllArticles(): Promise<Article[]> {
         const foundArticles = await this.articleRepository.find();
         return foundArticles;
     }
 
-    // 특정 게시글 조회 기능
-    async getArticleDetailById(articleID: number): Promise<Article> {
+    async getArticleDetailByID(articleID: number): Promise<Article> {
         const foundArticle = await this.articleRepository.findOneBy({ articleID: articleID });
         if(!foundArticle) {
             throw new NotFoundException(`Article with ID ${articleID} not found`);
@@ -28,8 +25,7 @@ export class ArticlesService {
         return foundArticle;
     }
 
-    // 키워드(작성자)로 검색한 게시글 조회 기능
-    async getArticlesByKeyword(userID: number): Promise<Article[]> {
+    async getArticlesByID(userID: number): Promise<Article[]> {
         if (!userID) {
             throw new BadRequestException('Author keyword must be provided');
         }
@@ -40,15 +36,14 @@ export class ArticlesService {
         return foundArticles;
     }
 
-    // 게시글 작성 기능
     async createArticle(createArticleDto: CreateArticleDto): Promise<Article> {
         const { userID, articleTitle, articleContents, articleImage } = createArticleDto;
-        if (!userID || !articleTitle || !articleContents) {
+        if (!userID || !articleTitle || !articleContents ) {
             throw new BadRequestException('Author, title, and contents must be provided');
         }
         const newArticle: Article = {
-            articleID: 0, // 임시 초기화
-            userID, // author: createArticleDto.author
+            articleID: 0,
+            userID,
             articleTitle,
             articleContents,
             articleImage,
@@ -58,9 +53,8 @@ export class ArticlesService {
         return createdArticle;
     }
     
-    // 특정 번호의 게시글 수정
     async updateArticleById(id: number, updateArticleDto: UpdateArticleDto): Promise<Article> {
-        const foundArticle = await this.getArticleDetailById(id);
+        const foundArticle = await this.getArticleDetailByID(id);
         const { articleTitle, articleContents } = updateArticleDto;
         if (!articleTitle || !articleContents) {
             throw new BadRequestException('Title and contents must be provided');
@@ -71,9 +65,8 @@ export class ArticlesService {
         return updatedArticle;
     }
 
-    // 게시글 삭제 기능
     async deleteArticleById(id: number): Promise<void> {
-        const foundArticle = await this.getArticleDetailById(id);
+        const foundArticle = await this.getArticleDetailByID(id);
         await this.articleRepository.delete(foundArticle);
     }
 }

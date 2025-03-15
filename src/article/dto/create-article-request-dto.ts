@@ -9,5 +9,6 @@ export class CreateArticleDto {
 
     @IsNotEmpty()
     articleContents: string;
+    
     articleImage: string;
 }
