@@ -1,10 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('panoramaimage')
+@Entity()
 export class PanoramaImage {
     @PrimaryGeneratedColumn()
     panoramaViewerImageID: number;
 
     @Column()
-    panoramaViewerImage: Buffer;
+    panoramaViewerImage: string;
 }

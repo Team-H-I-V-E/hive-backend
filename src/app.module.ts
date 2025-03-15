@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './configs/typeorm.config';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { LikedArticleMoudle } from './likedArticle/liked.module';
+import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { LikedArticleMoudle } from './likedArticle/liked.module';
     PanoramaViewerModule,
     ArticleFavoriteModule,
     LikedArticleMoudle,
+    PanoramaFavoriteModule,
   ],
   controllers: [],
   providers: []
