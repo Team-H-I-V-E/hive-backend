@@ -9,28 +9,30 @@ import { ArticleResponseDto } from '../dto/article-response.dto';
 export class ArticlesController {
     constructor(private articlesService: ArticlesService){}
 
-    // 게시글 조회 기능
     @Get('/')
     async getAllArticles(): Promise<Article[]> {
 	    const articles: Article[] = await this.articlesService.getAllArticles();
         return articles;
     }
 
-    // 키워드(작성자)로 검색한 게시글 조회 기능
+    @Get('/detail/:id')
+    async getArticleDetailByID(articleID: number): Promise<Article> {
+        const article: Article = await this.articlesService.getArticleDetailByID(articleID);
+        return article;
+    }
+
     @Get('/search/:keyword')
-    async getArticlesByKeyword(@Query('userID') userID: number): Promise<Article[]> {
-        const articles: Article[] = await this.articlesService.getArticlesByKeyword(userID);
+    async getArticlesByID(@Query('userID') userID: number): Promise<Article[]> {
+        const articles: Article[] = await this.articlesService.getArticlesByID(userID);
         return articles;
     }
 
-    // 게시글 작성 기능
     @Post('/')
     async createArticle(@Body() createArticleDto: CreateArticleDto): Promise<ArticleResponseDto> {
         const articleResponseDto = new ArticleResponseDto(await this.articlesService.createArticle(createArticleDto))
         return articleResponseDto;
     }
 
-    // 특정 번호의 게시글 수정
     @Put('/:id')
     async updateArticleById(
         @Param('id') id: number,
@@ -39,9 +41,9 @@ export class ArticlesController {
         return articleResponseDto;
     }
 
-    // 게시글 삭제 기능
     @Delete('/:id')
     async deleteArticleById(@Param('id') id: number): Promise<void> {
         await this.articlesService.deleteArticleById(id);
     }
+    
 }
