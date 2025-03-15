@@ -6,5 +6,5 @@ export class PanoramaImage {
     panoramaViewerImageID: number;
 
     @Column()
-    panoramaViewerImage: Buffer;
+    panoramaViewerImage: string;
 }
