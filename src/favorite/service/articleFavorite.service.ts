@@ -11,6 +11,7 @@ export class ArticleFavoriteService {
     constructor(
         @InjectRepository(ArticleFavorite)
         private articleFavoriteRepository: Repository<ArticleFavorite>,
+        @InjectRepository(Article)
         private articleRepository: Repository<Article>
     ) {}
 
