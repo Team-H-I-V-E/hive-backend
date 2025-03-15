@@ -1,8 +1,11 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CommentsRequestDto {
-    
+export class CreateLikedArticleDto {
+
     @IsNotEmpty()
     articleID: number;
+
+    @IsNotEmpty()
+    userID: number;
 
 }

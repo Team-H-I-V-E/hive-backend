@@ -5,37 +5,24 @@ import { HeritageModule } from './heritage/heritage.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ArticleModule } from './article/article.module';
+import { PanoramaViewerModule } from './panorama/panorama.module';
+import { typeOrmConfig } from './configs/typeorm.config';
+import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
+import { LikedArticleMoudle } from './likedArticle/liked.module';
+import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-
-      isGlobal: true, //환경 변수를 전역으로 설정
-      envFilePath: '.env',
-
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'), 
-        database: configService.get<string>('DB_NAME'),
-        username: configService.get<string>('DB_USER'),
-        password: configService.get<string>('DB_PASSWORD'),
-        entities: [Heritage],
-        synchronize: true,
-        logging: true,
-        timezone: 'local',
-      }),
-    }),
-    
-    HeritageModule,
-
+    TypeOrmModule.forRoot(typeOrmConfig),
+    ArticleModule,
+    PanoramaViewerModule,
+    ArticleFavoriteModule,
+    LikedArticleMoudle,
+    PanoramaFavoriteModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: []
 })
-export class AppModule { }
-
+export class AppModule {}
