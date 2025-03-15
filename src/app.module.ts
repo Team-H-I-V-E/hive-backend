@@ -3,6 +3,7 @@ import { ArticleModule } from './article/article.module';
 import { PanoramaViewerModule } from './panorama/panorama.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './configs/typeorm.config';
+import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
 
 
 @Module({
@@ -10,6 +11,7 @@ import { typeOrmConfig } from './configs/typeorm.config';
     TypeOrmModule.forRoot(typeOrmConfig),
     ArticleModule,
     PanoramaViewerModule,
+    PanoramaFavoriteModule,
   ],
   controllers: [],
   providers: []
