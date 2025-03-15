@@ -1,17 +1,16 @@
-import { IsNotEmpty } from "class-validator";
+import { Comments } from "../entities/comments.entity";
+
 
 export class CommentsResponseDto {
 
-    @IsNotEmpty()
     commentsID: number;
-    
-    @IsNotEmpty()
-    userID: number;
-    
-    @IsNotEmpty()
     commentsContents: string;
-    
-    @IsNotEmpty()
     articleCreatedAt: Date;
     
+    constructor(comments: Comments) {
+        this.commentsID = comments.commentsID;
+        this.commentsContents = comments.commentsContents;
+        this.articleCreatedAt = comments.articleCreatedAt;
+    }
+
 }
