@@ -1,17 +1,14 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CommentsResponseDto {
+export class CreateCommentDto {
+    
+    @IsNotEmpty()
+    articleID: number;
 
     @IsNotEmpty()
-    commentsID: number;
-    
-    @IsNotEmpty()
     userID: number;
-    
+
     @IsNotEmpty()
     commentsContents: string;
-    
-    @IsNotEmpty()
-    articleCreatedAt: Date;
-    
+
 }
