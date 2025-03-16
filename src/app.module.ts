@@ -21,6 +21,7 @@ import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,
+    HeritageModule
   ],
   controllers: [],
   providers: []
