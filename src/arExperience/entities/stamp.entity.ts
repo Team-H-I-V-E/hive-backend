@@ -5,8 +5,8 @@ export class Stamp {
   @PrimaryGeneratedColumn()
   stampID: number;
 
-  @Column()
-  panoramaViewerID: number;
+  // @Column()
+  // panoramaViewerID: number;
 
   @Column()
   stampImage: string;

@@ -11,8 +11,8 @@ export class CollectedStamp {
     @Column()
     userID: number;
 
-    @Column()
-    panoramaViewerID: number;
+    // @Column()
+    // panoramaViewerID: number;
 
     @CreateDateColumn()
     stampTime: Date;
