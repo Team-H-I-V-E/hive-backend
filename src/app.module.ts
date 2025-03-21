@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+
+import { Module, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Heritage } from './heritage/entities/heritage.entity';
 import { HeritageModule } from './heritage/heritage.module';
@@ -11,6 +12,10 @@ import { typeOrmConfig } from './configs/typeorm.config';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { LikedArticleMoudle } from './likedArticle/liked.module';
 import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { APP_PIPE } from '@nestjs/core';
+
 
 
 @Module({
@@ -21,8 +26,15 @@ import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: []
+  providers: [
+     {
+        provide: APP_PIPE,
+        useClass: ValidationPipe,
+    },
+  ]
 })
 export class AppModule {}
