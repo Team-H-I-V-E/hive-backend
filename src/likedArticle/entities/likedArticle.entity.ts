@@ -1,10 +1,15 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class PanoramaImage {
+export class LikedArticle {
+
     @PrimaryGeneratedColumn()
-    panoramaViewerImageID: number;
+    likedArticleID: number;
 
     @Column()
-    panoramaViewerImage: string;
+    articleID: number;
+
+    @Column()
+    userID: number;
+
 }
