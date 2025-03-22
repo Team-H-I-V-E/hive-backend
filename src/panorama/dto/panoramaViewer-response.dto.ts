@@ -6,20 +6,5 @@ export class PanoramaViewerResponseDto {
         panoramaViewerID: number;
 
         @IsNotEmpty()
-        ruinsName: string;
-
-        @IsNotEmpty()
-        ruinsAge: string;
-
-        @IsNotEmpty()
-        ruinsLocation: string;
-
-        @IsNotEmpty()
-        ruinsInformation: string;
-
-        @IsNotEmpty()
-        panoramaViewerImageID: number;
-
-        @IsNotEmpty()
         panoramaViewerCoordinate: Point;
 }
