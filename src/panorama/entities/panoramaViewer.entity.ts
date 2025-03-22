@@ -18,7 +18,7 @@ export class PanoramaViewer {
     ruinsInformation: string;
 
     @Column()
-    panoramaViewerImageID: number;
+    panoramaViewerImage: string;
 
     @Column("point")
     panoramaViewerCoordinate: Point;
