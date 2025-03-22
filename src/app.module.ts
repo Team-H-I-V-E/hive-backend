@@ -26,6 +26,7 @@ import { APP_PIPE } from '@nestjs/core';
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,
+    HeritageModule
     UserModule,
     AuthModule,
   ],
