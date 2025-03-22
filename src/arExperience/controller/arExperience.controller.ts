@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param } from "@nestjs/common";
+import { Controller, Get, Post, Param, Body } from "@nestjs/common";
 import { ArExperienceService } from "../service/arExperience.service";
 import { AcquireStampDto } from "../dto/arExperience-request.dto";
 
@@ -20,7 +20,17 @@ export class ArExperienceController {
 
   // 사용자가 새로운 스탬프를 획득
   @Post(':userId/:stampId')
-  acquireStamp(@Param() acquireStampDto: AcquireStampDto) {
+  async acquireStamp(
+    @Param('userId') userId: number,
+    @Param('stampId') stampId: number,
+    @Body() body: { stampCoordinate: string }
+  ) {
+    const acquireStampDto: AcquireStampDto = {
+      userID: userId,
+      stampID: stampId,
+      stampCoordinate: body.stampCoordinate,
+    };
+    
     return this.arExperienceService.acquireStamp(acquireStampDto);
   }
 }
