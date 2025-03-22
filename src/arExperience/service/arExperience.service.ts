@@ -34,7 +34,13 @@ export class ArExperienceService {
 
   async getUnacquiredStamps(userId: number) {
     // 전체 스탬프 목록 조회
-    const allStamps = await this.stampRepository.find();
+    const allStamps = await this.stampRepository.query(`
+      SELECT 
+        Stamp.stampID,
+        Stamp.stampImage,
+        ST_AsText(Stamp.stampCoordinate) AS stampCoordinate
+      FROM stamp Stamp
+    `);
 
     // 사용자가 획득한 스탬프 목록 조회
     const collectedStamps = await this.collectedStampRepository.find({ where: { userID: userId } });
