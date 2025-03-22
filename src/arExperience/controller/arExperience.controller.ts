@@ -12,6 +12,12 @@ export class ArExperienceController {
     return this.arExperienceService.getStamps(userId);
   }
 
+  // 사용자가 획득하지 않은 스탬프 리스트를 조회
+  @Get(':userId/unacquired-stamps')
+  getUnacquiredStamps(@Param('userId') userId: number) {
+    return this.arExperienceService.getUnacquiredStamps(userId);
+  }
+
   // 사용자가 새로운 스탬프를 획득
   @Post(':userId/:stampId')
   acquireStamp(@Param() acquireStampDto: AcquireStampDto) {
