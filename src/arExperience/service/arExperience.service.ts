@@ -72,9 +72,17 @@ export class ArExperienceService {
     }
 
     // 특정 위치에 도착했는지 확인
-    const stamp = await this.stampRepository.findOne({ where: { stampID: stampID } });
-    if (!stamp) {
-      throw new BadRequestException('Stamp not found');
+    const stamp = await this.stampRepository.query(`
+        SELECT 
+            Stamp.stampID,
+            Stamp.stampImage,
+            ST_AsText(Stamp.stampCoordinate) AS stampCoordinate
+        FROM stamp Stamp
+        WHERE Stamp.stampID = ?
+    `, [stampID]);
+
+    if (!stamp || stamp.length === 0) {
+        throw new BadRequestException('Stamp not found');
     }
 
     // 위치 비교 로직
