@@ -73,10 +73,10 @@ export class ArExperienceService {
     }
 
     // 위치 비교 로직
-    const { stampLatitude: stampLatitude, stampLongitude: stampLongitude } = stamp;
+    const { stampLatitude, stampLongitude } = stamp;
     const distance = this.calculateDistance(
-      { latitude: stampLatitude, longitude: stampLongitude },
-      { latitude: userLatitude, longitude: userLongitude }  
+        { latitude: stampLatitude, longitude: stampLongitude },
+        { latitude: userLatitude, longitude: userLongitude }  
     );
     if (distance > 3) {
         throw new BadRequestException('User is not close enough to acquire the stamp');
@@ -92,9 +92,22 @@ export class ArExperienceService {
     await this.collectedStampRepository.save(newCollectedStamp);
 
     return { message: 'Stamp acquired', stampId: stampID };
-}
+  }
 
   private calculateDistance(coord1: { latitude: number; longitude: number }, coord2: { latitude: number; longitude: number }): number {
-    return 3; // 예시 데이터
+    const toRadians = (degree: number) => degree * (Math.PI / 180);
+
+    const R = 6371; // 지구의 반지름
+    const dLat = toRadians(coord2.latitude - coord1.latitude);
+    const dLon = toRadians(coord2.longitude - coord1.longitude);
+
+    const a = 
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRadians(coord1.latitude)) * Math.cos(toRadians(coord2.latitude)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // 두 지점 간의 거리
   }
 }
