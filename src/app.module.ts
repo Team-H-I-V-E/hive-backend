@@ -11,6 +11,8 @@ import { typeOrmConfig } from './configs/typeorm.config';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { LikedArticleMoudle } from './likedArticle/liked.module';
 import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
+import { Heritage3DModel } from './heritage/entities/heritage3dModel.entity';
+import { Heritage3DModelModule } from './heritage/heritage.3dModel.moduel';
 
 
 @Module({
@@ -21,7 +23,8 @@ import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,
-    HeritageModule
+    HeritageModule,
+    Heritage3DModelModule
   ],
   controllers: [],
   providers: []
