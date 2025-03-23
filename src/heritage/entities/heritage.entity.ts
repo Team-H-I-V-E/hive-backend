@@ -1,31 +1,30 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Heritage3DModel } from './heritage3dModel.entity';
 
 @Entity('heritage')
 export class Heritage {
   @PrimaryGeneratedColumn()
   heritageId: number;
 
-  @Column({ default: 0 })  // 기본값 0
-  heritageModelId: number;
-
-  @Column({ default: 0 })  // 기본값 0
-  heritage3dModelId: number;
-
-  @Column({ default: '' })  // 기본값 빈 문자열
+  @Column({ default: '' })
   heritageName: string;
 
-  @Column({ length:500, default: '' })  // 기본값 빈 문자열
+  @Column({ length: 500, default: '' })
   heritageDescription: string;
 
-  @Column({ default: '' })  // 기본값 0
+  @Column({ default: '' })
   heritageYear: string;
 
-  @Column({ default: '' })  // 기본값 빈 문자열
+  @Column({ default: '' })
   heritageLocation: string;
 
-  @Column({ type: 'float', default: 0 })  // 기본값 0
+  @Column({ type: 'float', default: 0 })
   heritageLatitude: number;
 
-  @Column({ type: 'float', default: 0 })  // 기본값 0
+  @Column({ type: 'float', default: 0 })
   heritageLongitude: number;
+
+  @OneToOne(() => Heritage3DModel, (heritage3dModel) => heritage3dModel.heritage, { nullable: true, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'heritageId' })
+  heritage3dModel?: Heritage3DModel;
 }
