@@ -27,7 +27,7 @@ import { DatabaseSync } from 'node:sqlite';
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,
-    HeritageModule
+    HeritageModule,
     UserModule,
     AuthModule,
     ConfigModule.forRoot(),
