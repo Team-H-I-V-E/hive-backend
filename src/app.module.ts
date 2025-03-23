@@ -15,6 +15,7 @@ import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { APP_PIPE } from '@nestjs/core';
+import { DatabaseSync } from 'node:sqlite';
 
 
 
@@ -29,14 +30,16 @@ import { APP_PIPE } from '@nestjs/core';
     HeritageModule
     UserModule,
     AuthModule,
+    ConfigModule.forRoot(),
     ArExperienceModule,
   ],
   controllers: [],
   providers: [
      {
-        provide: APP_PIPE,
-        useClass: ValidationPipe,
-    },
-  ]
+        provide: 'DATABASE_CONFIG',
+        useValue: DatabaseSync,
+    }
+  ],
+  exports: ['DATABASE_CONFIG']
 })
 export class AppModule {}
