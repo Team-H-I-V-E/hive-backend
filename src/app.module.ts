@@ -7,7 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
-import { PanoramaViewerModule } from './panorama/panorama.module';
+import { PanoramaModule } from './panorama/panorama.module';
 import { typeOrmConfig } from './configs/typeorm.config';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { LikedArticleMoudle } from './likedArticle/liked.module';
@@ -22,7 +22,7 @@ import { APP_PIPE } from '@nestjs/core';
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     ArticleModule,
-    PanoramaViewerModule,
+    PanoramaModule,
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,

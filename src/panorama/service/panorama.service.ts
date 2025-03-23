@@ -1,0 +1,48 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Panorama } from '../entities/panorama.entity';
+import { PanoramaResponseDto } from '../dto/panorama-response.dto';
+
+@Injectable()
+export class PanoramaService {
+    constructor(
+        @InjectRepository(Panorama)
+        private panoramaRepository: Repository<Panorama>,
+    ) {}
+
+    async getAllPanorama(): Promise<PanoramaResponseDto[]> {
+        const foundPanoramas = await this.panoramaRepository
+            .createQueryBuilder('Panorama')
+            .select([
+                'Panorama.panoramaId',
+                'Panorama.panoramaLatitude',
+                'Panorama.panoramaLongitude'
+            ])
+            .getRawMany(); // getRawMany() 사용하여 변환된 데이터 가져오기
+
+        return foundPanoramas;
+    }
+
+    async getPanoramaDetail(panoramaId: number): Promise<Panorama> {
+        const foundPanoramaDetail = await this.panoramaRepository
+            .createQueryBuilder('Panorama')
+            .select([
+                'Panorama.panoramaId',
+                'Panorama.ruinsName',
+                'Panorama.ruinsAge',
+                'Panorama.ruinsLocation',
+                'Panorama.ruinsInformation',
+                'Panorama.panoramaImage',
+                'Panorama.panoramaLatitude',
+                'Panorama.panoramaLongitude'
+            ])
+            .where('Panorama.panoramaId = :id', { id: panoramaId })
+            .getRawOne();
+
+        if (!foundPanoramaDetail) {
+            throw new NotFoundException(`Panorama with ID ${panoramaId} not found`);
+        }
+        return foundPanoramaDetail;
+    }
+}
