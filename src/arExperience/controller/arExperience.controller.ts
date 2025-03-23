@@ -23,12 +23,13 @@ export class ArExperienceController {
   async acquireStamp(
     @Param('userId') userId: number,
     @Param('stampId') stampId: number,
-    @Body() body: { stampCoordinate: string }
+    @Body() body: { userLatitude: number; userLongitude: number }
   ) {
     const acquireStampDto: AcquireStampDto = {
       userID: userId,
       stampID: stampId,
-      stampCoordinate: body.stampCoordinate,
+      userLatitude: body.userLatitude,
+      userLongitude: body.userLongitude,
     };
     
     return this.arExperienceService.acquireStamp(acquireStampDto);

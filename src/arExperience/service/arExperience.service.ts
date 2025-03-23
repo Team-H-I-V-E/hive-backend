@@ -34,13 +34,7 @@ export class ArExperienceService {
 
   async getUnacquiredStamps(userId: number) {
     // 전체 스탬프 목록 조회
-    const allStamps = await this.stampRepository.query(`
-      SELECT 
-        Stamp.stampID,
-        Stamp.stampImage,
-        ST_AsText(Stamp.stampCoordinate) AS stampCoordinate
-      FROM stamp Stamp
-    `);
+    const allStamps = await this.stampRepository.find();
 
     // 사용자가 획득한 스탬프 목록 조회
     const collectedStamps = await this.collectedStampRepository.find({ where: { userID: userId } });
@@ -50,7 +44,8 @@ export class ArExperienceService {
     const stampsWithStatus = allStamps.map(stamp => ({
       stampID: stamp.stampID,
       stampImage: stamp.stampImage,
-      stampCoordinate: stamp.stampCoordinate,
+      stampLatitude: stamp.stampLatitude,
+      stampLongitude: stamp.stampLongitude,
       isAcquired: collectedStampIds.has(stamp.stampID),
     }));
 
@@ -60,7 +55,7 @@ export class ArExperienceService {
   }
   
   async acquireStamp(acquireStampDto: AcquireStampDto) {
-    const { userID, stampID, stampCoordinate } = acquireStampDto;
+    const { userID, stampID, userLatitude, userLongitude } = acquireStampDto;
 
     // 사용자가 획득한 스탬프 목록 조회
     const collectedStamps = await this.getStamps(userID);
@@ -72,21 +67,17 @@ export class ArExperienceService {
     }
 
     // 특정 위치에 도착했는지 확인
-    const stamp = await this.stampRepository.query(`
-        SELECT 
-            Stamp.stampID,
-            Stamp.stampImage,
-            ST_AsText(Stamp.stampCoordinate) AS stampCoordinate
-        FROM stamp Stamp
-        WHERE Stamp.stampID = ?
-    `, [stampID]);
-
-    if (!stamp || stamp.length === 0) {
-        throw new BadRequestException('Stamp not found');
+    const stamp = await this.stampRepository.findOne({ where: { stampID: stampID } });
+    if (!stamp) {
+      throw new BadRequestException('Stamp not found');
     }
 
     // 위치 비교 로직
-    const distance = this.calculateDistance(stamp[0].stampCoordinate, stampCoordinate);
+    const { stampLatitude: stampLatitude, stampLongitude: stampLongitude } = stamp;
+    const distance = this.calculateDistance(
+      { latitude: stampLatitude, longitude: stampLongitude },
+      { latitude: userLatitude, longitude: userLongitude }  
+    );
     if (distance > 3) {
         throw new BadRequestException('User is not close enough to acquire the stamp');
     }
@@ -103,8 +94,7 @@ export class ArExperienceService {
     return { message: 'Stamp acquired', stampId: stampID };
 }
 
-
-  private calculateDistance(coord1: string, coord2: string): number {
-    return 4; // 예시 데이터
+  private calculateDistance(coord1: { latitude: number; longitude: number }, coord2: { latitude: number; longitude: number }): number {
+    return 3; // 예시 데이터
   }
 }
