@@ -1,8 +1,8 @@
-
 import { Module, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Heritage } from './heritage/entities/heritage.entity';
 import { HeritageModule } from './heritage/heritage.module';
+import { ArExperienceModule } from './arExperience/arExperience.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -27,9 +27,11 @@ import { DatabaseSync } from 'node:sqlite';
     ArticleFavoriteModule,
     LikedArticleMoudle,
     PanoramaFavoriteModule,
+    HeritageModule
     UserModule,
     AuthModule,
     ConfigModule.forRoot(),
+    ArExperienceModule,
   ],
   controllers: [],
   providers: [
