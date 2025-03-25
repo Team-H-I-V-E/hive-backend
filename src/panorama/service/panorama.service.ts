@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Panorama } from '../entities/panorama.entity';
-import { PanoramaResponseDto } from '../dto/panorama-response.dto';
+import { PanoramaResponseDto } from '../dto/panorama/panorama-response.dto';
 
 @Injectable()
 export class PanoramaService {
