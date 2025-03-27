@@ -11,7 +11,9 @@ async function bootstrap() {
     credentials: true, // 쿠키와 인증 정보를 포함할지 여부
   });
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log('서버가 실행중입니다.');
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port);
+  console.log(`서버가 ${port}에서 실행중입니다.`);
+
 }
 bootstrap();
