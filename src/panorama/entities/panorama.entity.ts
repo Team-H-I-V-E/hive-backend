@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Panorama {
@@ -20,9 +20,9 @@ export class Panorama {
     @Column()
     panoramaImage: string;
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 8 }) // 소수점 허용
     panoramaLatitude: number;
 
-    @Column()
+    @Column({ type: 'decimal', precision: 11, scale: 8 }) // 소수점 허용
     panoramaLongitude: number;
 }
