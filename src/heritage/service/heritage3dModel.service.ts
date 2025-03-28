@@ -4,10 +4,9 @@ import * as path from 'path';
 
 @Injectable()
 export class Heritage3DModelService {
-  private uploadPath = '';
+  private uploadPath = '/Users/82105/Documents/3dModelFiles/localStorage';
 
   constructor() {
-    // 저장 경로가 존재하지 않으면 폴더를 생성
     this.ensureUploadPathExists();
   }
 
@@ -19,16 +18,19 @@ export class Heritage3DModelService {
     }
   }
 
-  // 파일 업로드
   async uploadFile(file: Express.Multer.File) {
     const filePath = path.join(this.uploadPath, file.originalname);
 
     try {
       await fs.writeFile(filePath, file.buffer); // 파일 저장
-      return { message: 'File uploaded successfully', filePath };
+      return {
+        filePath, // 저장된 파일 경로
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        size: file.size,
+      };
     } catch (err) {
       throw new HttpException('Failed to upload file', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
 }
