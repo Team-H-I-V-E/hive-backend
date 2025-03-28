@@ -10,11 +10,17 @@ import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/', // http://localhost:3000/images/xxx.jpg
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     HeritageModule,
