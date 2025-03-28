@@ -4,7 +4,7 @@ import { Heritage } from './heritage.entity';
 @Entity('heritage_3d_model')
 export class Heritage3DModel {
   @PrimaryGeneratedColumn()
-  heritage3dModelId: number; // AUTO_INCREMENT 설정됨
+  heritage3dModelId: number; 
 
   @Column({ nullable: false })
   modelFileUrl: string;
@@ -13,6 +13,6 @@ export class Heritage3DModel {
   createdAt: Date;
 
   @OneToOne(() => Heritage, (heritage) => heritage.heritage3dModel, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'heritageId' })
+  @JoinColumn({ name: 'heritageModelId' }) 
   heritage: Heritage;
 }
