@@ -5,6 +5,9 @@ export class PanoramaResponseDto {
         panoramaId: number;
 
         @IsNotEmpty()
+        ruinsAge: string;
+
+        @IsNotEmpty()
         panoramaLatitude: number;
 
         @IsNotEmpty()

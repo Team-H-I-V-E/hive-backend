@@ -16,6 +16,7 @@ export class PanoramaService {
             .createQueryBuilder('Panorama')
             .select([
                 'Panorama.panoramaId',
+                'Panorama.ruinsAge',
                 'Panorama.panoramaLatitude',
                 'Panorama.panoramaLongitude'
             ])
