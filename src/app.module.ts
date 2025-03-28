@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Heritage } from './heritage/entities/heritage.entity';
 import { HeritageModule } from './heritage/heritage.module';
+import { ArExperienceModule } from './arExperience/arExperience.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +14,10 @@ import { LikedArticleMoudle } from './likedArticle/liked.module';
 import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
 import { Heritage3DModel } from './heritage/entities/heritage3dModel.entity';
 import { Heritage3DModelModule } from './heritage/heritage.3dModel.moduel';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { APP_PIPE } from '@nestjs/core';
+import { DatabaseSync } from 'node:sqlite';
 
 
 @Module({
@@ -25,8 +30,18 @@ import { Heritage3DModelModule } from './heritage/heritage.3dModel.moduel';
     PanoramaFavoriteModule,
     HeritageModule,
     Heritage3DModelModule
+    UserModule,
+    AuthModule,
+    ConfigModule.forRoot(),
+    ArExperienceModule,
   ],
   controllers: [],
-  providers: []
+  providers: [
+     {
+        provide: 'DATABASE_CONFIG',
+        useValue: DatabaseSync,
+    }
+  ],
+  exports: ['DATABASE_CONFIG']
 })
 export class AppModule {}

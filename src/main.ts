@@ -9,5 +9,6 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
   await app.listen(process.env.PORT ?? 3000);
+  console.log('서버가 실행중입니다.')
 }
 bootstrap();
