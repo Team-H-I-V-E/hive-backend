@@ -12,11 +12,12 @@ import { typeOrmConfig } from './configs/typeorm.config';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { LikedArticleMoudle } from './likedArticle/liked.module';
 import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
+import { Heritage3DModel } from './heritage/entities/heritage3dModel.entity';
+import { Heritage3DModelModule } from './heritage/heritage.3dModel.moduel';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { APP_PIPE } from '@nestjs/core';
 import { DatabaseSync } from 'node:sqlite';
-
 
 
 @Module({
@@ -28,6 +29,7 @@ import { DatabaseSync } from 'node:sqlite';
     LikedArticleMoudle,
     PanoramaFavoriteModule,
     HeritageModule,
+    Heritage3DModelModule
     UserModule,
     AuthModule,
     ConfigModule.forRoot(),
