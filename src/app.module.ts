@@ -12,13 +12,14 @@ import { ArticleModule } from './article/article.module';
 import { PanoramaModule } from './panorama/panorama.module';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
 import { PanoramaFavoriteModule } from './favorite/panoramaFavorite.module';
+import { Heritage3DModel } from './heritage/entities/heritage3dModel.entity';
+import { Heritage3DModelModule } from './heritage/heritage.3dModel.moduel';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { APP_PIPE } from '@nestjs/core';
 import { DatabaseSync } from 'node:sqlite';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,6 +36,10 @@ import { DatabaseSync } from 'node:sqlite';
     ArticleFavoriteModule,
     PanoramaFavoriteModule,
     HeritageModule,
+    Heritage3DModelModule
+    UserModule,
+    AuthModule,
+    ConfigModule.forRoot(),
     ArExperienceModule,
     AuthModule,
     UserModule,
