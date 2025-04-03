@@ -27,23 +27,15 @@ export class PanoramaService {
 
     async getPanoramaDetail(panoramaId: number): Promise<Panorama> {
         const foundPanoramaDetail = await this.panoramaRepository
-            .createQueryBuilder('Panorama')
-            .select([
-                'Panorama.panoramaId',
-                'Panorama.ruinsName',
-                'Panorama.ruinsAge',
-                'Panorama.ruinsLocation',
-                'Panorama.ruinsInformation',
-                'Panorama.panoramaImage',
-                'Panorama.panoramaLatitude',
-                'Panorama.panoramaLongitude'
-            ])
-            .where('Panorama.panoramaId = :id', { id: panoramaId })
-            .getRawOne();
-
+            .createQueryBuilder('panorama')
+            .leftJoinAndSelect('panorama.panoramaImages', 'panoramaImages')
+            .where('panorama.panoramaId = :id', { id: panoramaId })
+            .getOne();
+    
         if (!foundPanoramaDetail) {
             throw new NotFoundException(`Panorama with ID ${panoramaId} not found`);
         }
+    
         return foundPanoramaDetail;
     }
 }
