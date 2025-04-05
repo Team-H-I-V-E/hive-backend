@@ -4,13 +4,13 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class PanoramaFavorite {
 
     @PrimaryGeneratedColumn()
-    panoramaFavoriteID: number;
+    panoramaFavoriteId: number;
 
     @Column()
-    userID: number;
+    userId: number;
 
     @Column()
-    panoramaViewerID: number;
+    panoramaId: number;
 
     @Column({  type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     panoramaFavoriteCreatedAt: Date;

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { PanoramaImage } from './panoramaImage.entity';
 
 @Entity()
 export class Panorama {
@@ -17,12 +18,12 @@ export class Panorama {
     @Column()
     ruinsInformation: string;
 
-    @Column()
-    panoramaImage: string;
+    @OneToMany(() => PanoramaImage, panoramaImage => panoramaImage.panorama)
+    panoramaImages: PanoramaImage[];
 
-    @Column({ type: 'decimal', precision: 10, scale: 8 }) // 소수점 허용
+    @Column({ type: 'decimal', precision: 10, scale: 8 })
     panoramaLatitude: number;
 
-    @Column({ type: 'decimal', precision: 11, scale: 8 }) // 소수점 허용
+    @Column({ type: 'decimal', precision: 11, scale: 8 })
     panoramaLongitude: number;
 }
