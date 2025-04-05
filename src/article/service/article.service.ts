@@ -13,7 +13,9 @@ export class ArticlesService {
     ) { }
 
     async getAllArticles(): Promise<Article[]> {
-        const foundArticles = await this.articleRepository.find();
+        const foundArticles = await this.articleRepository.find({
+            relations: ['articleImages'],
+          });
         return foundArticles;
     }
 
