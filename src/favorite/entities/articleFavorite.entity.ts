@@ -4,12 +4,12 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class ArticleFavorite {
 
     @PrimaryGeneratedColumn()
-    articleFavoriteID : number;
+    articleFavoriteId : number;
 
     @Column()
-    articleID: number;
+    articleId: number;
 
     @Column()
-    userID: number;
+    userId: number;
 
 }
