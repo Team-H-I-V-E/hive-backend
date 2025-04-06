@@ -4,7 +4,7 @@ import { Heritage } from './heritage.entity';
 @Entity('heritage_3d_model')
 export class Heritage3DModel {
   @PrimaryGeneratedColumn()
-  heritage3dModelId: number; 
+  heritage3dModelId: number;
 
   @Column({ nullable: false })
   modelFileUrl: string;
@@ -12,7 +12,7 @@ export class Heritage3DModel {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @OneToOne(() => Heritage, (heritage) => heritage.heritage3dModel, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'heritageModelId' }) 
+  @OneToOne(() => Heritage, (heritage) => heritage.heritage3DModel, { eager: true })
+  @JoinColumn({ name: 'heritageId' }) 
   heritage: Heritage;
 }
