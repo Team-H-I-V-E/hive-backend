@@ -5,13 +5,16 @@ import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { UserStatus } from 'src/user/entities/user-role.enum';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+        private jwtService: JwtService
     ){}  
 
     //회원가입
@@ -44,8 +47,18 @@ export class AuthService {
         if (!existingUser || !(await bcrypt.compare(userPassword, existingUser.userPassword))) {
             throw new UnauthorizedException('올바르지 않은 이메일 또는 비밀번호 입니다.');
         }
+
+        // JWT 토큰 생성
+        const payload = {
+            userId: existingUser.userId,
+            userEmail: existingUser.userEmail,
+            userName: existingUser.userName
+        };
+        const accessToken = await this.jwtService.sign(payload);
         
-        return '로그인 성공'
+        return accessToken;
+    } catch (error) {
+        throw error;
     }
     
     //이메일 중복 확인 메서드
