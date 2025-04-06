@@ -1,20 +1,34 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as express from 'express';
+import * as path from 'path';
 import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   // CORS 설정
   app.enableCors({
-    origin: '*', // 허용할 출처
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 허용할 HTTP 메서드
-    credentials: true, // 쿠키와 인증 정보를 포함할지 여부
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
     allowedHeaders: 'Content-Type, Authorization',
-
   });
+
+  // 정적 파일 제공 (절대 경로 사용)
+  const uploadPath = path.join(process.cwd(), 'uploads');
+  console.log(' Serving uploads from:', uploadPath); 
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads'), {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.glb')) {
+        res.setHeader('Content-Type', 'model/gltf-binary'); 
+      }
+    },
+  }));
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`서버가 ${port}에서 실행중입니다.`);
+  console.log(`서버 실행 중: http://localhost:${port}`);
 }
 bootstrap();
+

@@ -10,10 +10,6 @@ export class UpdateHeritageDto {
     heritageModelId?: number;
 
     @IsOptional()
-    @IsNumber()
-    heritage3dModelId?: number;
-
-    @IsOptional()
     @IsString()
     heritageName?: string;
 

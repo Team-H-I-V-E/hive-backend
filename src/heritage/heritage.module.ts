@@ -10,5 +10,6 @@ import { ConfigModule } from '@nestjs/config';
     imports: [TypeOrmModule.forFeature([Heritage]),ConfigModule ,HttpModule],
     controllers: [HeritageController],
     providers: [HeritageService],
+    exports: [HeritageService],
 })
 export class HeritageModule {}

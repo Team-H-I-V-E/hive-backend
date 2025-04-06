@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Heritage3DModelService } from './heritage3dModel.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,22 +13,20 @@ export class Heritage3dFileService {
   ) {}
 
   async uploadProfilePicture(file: Express.Multer.File, heritageId: number) {
-    // 파일 업로드 실행
-    const result = await this.heritage3DModelService.uploadFile(file);
+    // heritageId가 유효한지 확인
+    if (!heritageId) {
+      throw new BadRequestException('유효하지 않은 heritageId입니다.');
+    }
 
-    // 파일 엔터티 생성
-    const newFile = this.fileRepository.create({
-      modelFileUrl: result.filePath, // filePath → modelFileUrl
-      heritage: { heritageId }, // 관계 설정
-    });
+    //  파일 저장 실행 (heritageId 추가)
+    const savedModel = await this.heritage3DModelService.uploadFile(file, heritageId);
 
-    // DB에 저장
-    const savedFile = await this.fileRepository.save(newFile);
+    console.log('저장된 파일 경로:', savedModel.modelFileUrl); 
 
     return {
-      message: 'File uploaded successfully',
-      heritage3dModelId: savedFile.heritage3dModelId, // 저장된 ID 반환
-      modelFileUrl: savedFile.modelFileUrl,
+      message: '파일 업로드 성공',
+      heritage3dModelId: savedModel.heritage3dModelId, // 저장된 ID 반환
+      modelFileUrl: savedModel.modelFileUrl, // 저장된 파일 URL 반환
     };
   }
 }
