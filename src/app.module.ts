@@ -15,15 +15,21 @@ import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import * as sqlite3 from 'sqlite3';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './uploads', // 파일 저장 경로
+      limits: { fileSize: 100 * 1024 * 1024 }, // 100MB로 제한 증가
+
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-      serveRoot: '/', // http://localhost:3000/images/xxx.jpg
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/', 
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     ArticleModule,
