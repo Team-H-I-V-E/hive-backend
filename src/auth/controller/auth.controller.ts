@@ -1,9 +1,12 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from 'src/auth/service/auth.service';
 import { CreateUserDto } from 'src/user/dto/create-user-request.dto';
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
 import { UserResponseDto } from 'src/user/dto/user-response.dto';
 import { Response } from 'express';
+import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
+
 
 @Controller('api/auth')
 export class AuthController {
@@ -31,5 +34,13 @@ export class AuthController {
         });
 
         res.send({message: "Login Succes"});
+    }
+
+    // 인증된 회원이 들어갈 수 있는 테스트 URL 경로
+    @Post('/test')
+    @UseGuards(AuthGuard())
+    testForAuth(@Req() req: Request) {
+        console.log(req.user);
+        return {message: 'You are authenticated', user: req.user};
     }
 }
