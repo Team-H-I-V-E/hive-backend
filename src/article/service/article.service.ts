@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Article } from '../entities/article.entity';
-import { CreateArticleDto } from '../dto/create-article-request-dto';
 import { UpdateArticleDto } from '../dto/update-article-request-dto';
 
 @Injectable()
@@ -42,22 +41,29 @@ export class ArticlesService {
         return foundArticles;
     }
 
-    async createArticle(createArticleDto: CreateArticleDto): Promise<Article> {
-        const { userId, articleTitle, articleContents, articleImages } = createArticleDto;
-
+    async createArticle(payload: {
+        userId: number;
+        articleTitle: string;
+        articleContents: string;
+        articleImages: string[];
+      }): Promise<Article> {
+        const { userId, articleTitle, articleContents, articleImages } = payload;
+      
         if (!userId || !articleTitle || !articleContents) {
-            throw new BadRequestException('Author, title, and contents must be provided');
+          throw new BadRequestException('Author, title, and contents must be provided');
         }
+      
         const newArticle = this.articleRepository.create({
-            userId,
-            articleTitle,
-            articleContents,
-            articleImages: articleImages?.map(imagePath => ({
-                articleImage: imagePath
-            })) || []
+          userId,
+          articleTitle,
+          articleContents,
+          articleImages: articleImages?.map(imagePath => ({
+            articleImage: imagePath
+          })) || []
         });
+      
         return await this.articleRepository.save(newArticle);
-    }
+      }      
 
     async updateArticleById(id: number, updateArticleDto: UpdateArticleDto): Promise<Article> {
         const foundArticle = await this.getArticleDetailById(id);

@@ -15,13 +15,17 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
 
+  const imagesPath = path.join(process.cwd(), 'public', 'images');
+  app.use('/images', express.static(imagesPath));
+
+
   // 정적 파일 제공 (절대 경로 사용)
   const uploadPath = path.join(process.cwd(), 'uploads');
-  console.log(' Serving uploads from:', uploadPath); 
+  console.log(' Serving uploads from:', uploadPath);
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads'), {
     setHeaders: (res, path) => {
       if (path.endsWith('.glb')) {
-        res.setHeader('Content-Type', 'model/gltf-binary'); 
+        res.setHeader('Content-Type', 'model/gltf-binary');
       }
     },
   }));
