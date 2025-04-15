@@ -14,7 +14,7 @@ export class ArticlesService {
     async getAllArticles(): Promise<Article[]> {
         const foundArticles = await this.articleRepository.find({
             relations: ['articleImages'],
-          });
+        });
         return foundArticles;
     }
 
@@ -28,7 +28,7 @@ export class ArticlesService {
         }
         return foundArticle;
     }
-    
+
 
     async getArticlesById(userId: number): Promise<Article[]> {
         if (!userId) {
@@ -46,24 +46,24 @@ export class ArticlesService {
         articleTitle: string;
         articleContents: string;
         articleImages: string[];
-      }): Promise<Article> {
+    }): Promise<Article> {
         const { userId, articleTitle, articleContents, articleImages } = payload;
-      
+
         if (!userId || !articleTitle || !articleContents) {
-          throw new BadRequestException('Author, title, and contents must be provided');
+            throw new BadRequestException('Author, title, and contents must be provided');
         }
-      
+
         const newArticle = this.articleRepository.create({
-          userId,
-          articleTitle,
-          articleContents,
-          articleImages: articleImages?.map(imagePath => ({
-            articleImage: imagePath
-          })) || []
+            userId,
+            articleTitle,
+            articleContents,
+            articleImages: articleImages?.map(imagePath => ({
+                articleImage: imagePath
+            })) || []
         });
-      
+
         return await this.articleRepository.save(newArticle);
-      }      
+    }
 
     async updateArticleById(id: number, updateArticleDto: UpdateArticleDto): Promise<Article> {
         const foundArticle = await this.getArticleDetailById(id);
@@ -78,7 +78,9 @@ export class ArticlesService {
     }
 
     async deleteArticleById(id: number): Promise<void> {
-        const foundArticle = await this.getArticleDetailById(id);
-        await this.articleRepository.delete(foundArticle);
+        const result = await this.articleRepository.delete(id);
+        if (result.affected === 0) {
+            throw new NotFoundException(`게시글 ID ${id}를 찾을 수 없습니다.`);
+        }
     }
 }
