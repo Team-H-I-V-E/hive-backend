@@ -9,52 +9,58 @@ import { UpdateArticleDto } from '../dto/update-article-request-dto';
 export class ArticlesService {
     constructor(
         @InjectRepository(Article)
-        private articleRepository : Repository<Article>
-    ){}
+        private articleRepository: Repository<Article>
+    ) { }
 
     async getAllArticles(): Promise<Article[]> {
-        const foundArticles = await this.articleRepository.find();
+        const foundArticles = await this.articleRepository.find({
+            relations: ['articleImages'],
+          });
         return foundArticles;
     }
 
-    async getArticleDetailByID(articleID: number): Promise<Article> {
-        const foundArticle = await this.articleRepository.findOneBy({ articleID: articleID });
-        if(!foundArticle) {
-            throw new NotFoundException(`Article with ID ${articleID} not found`);
+    async getArticleDetailById(articleId: number): Promise<Article> {
+        const foundArticle = await this.articleRepository.findOne({
+            where: { articleId },
+            relations: ['articleImages']
+        });
+        if (!foundArticle) {
+            throw new NotFoundException(`Article with Id ${articleId} not found`);
         }
         return foundArticle;
     }
+    
 
-    async getArticlesByID(userID: number): Promise<Article[]> {
-        if (!userID) {
+    async getArticlesById(userId: number): Promise<Article[]> {
+        if (!userId) {
             throw new BadRequestException('Author keyword must be provided');
         }
-        const foundArticles = await this.articleRepository.findBy({ userID: userID })
+        const foundArticles = await this.articleRepository.findBy({ userId: userId })
         if (foundArticles.length === 0) {
-            throw new NotFoundException(`No articles found for author: ${userID}`);
+            throw new NotFoundException(`No articles found for author: ${userId}`);
         }
         return foundArticles;
     }
 
     async createArticle(createArticleDto: CreateArticleDto): Promise<Article> {
-        const { userID, articleTitle, articleContents, articleImage } = createArticleDto;
-        if (!userID || !articleTitle || !articleContents ) {
+        const { userId, articleTitle, articleContents, articleImages } = createArticleDto;
+
+        if (!userId || !articleTitle || !articleContents) {
             throw new BadRequestException('Author, title, and contents must be provided');
         }
-        const newArticle: Article = {
-            articleID: 0,
-            userID,
+        const newArticle = this.articleRepository.create({
+            userId,
             articleTitle,
             articleContents,
-            articleImage,
-            articleCreatedAt: new Date(),
-        };
-        const createdArticle = await this.articleRepository.save(newArticle);
-        return createdArticle;
+            articleImages: articleImages?.map(imagePath => ({
+                articleImage: imagePath
+            })) || []
+        });
+        return await this.articleRepository.save(newArticle);
     }
-    
+
     async updateArticleById(id: number, updateArticleDto: UpdateArticleDto): Promise<Article> {
-        const foundArticle = await this.getArticleDetailByID(id);
+        const foundArticle = await this.getArticleDetailById(id);
         const { articleTitle, articleContents } = updateArticleDto;
         if (!articleTitle || !articleContents) {
             throw new BadRequestException('Title and contents must be provided');
@@ -66,7 +72,7 @@ export class ArticlesService {
     }
 
     async deleteArticleById(id: number): Promise<void> {
-        const foundArticle = await this.getArticleDetailByID(id);
+        const foundArticle = await this.getArticleDetailById(id);
         await this.articleRepository.delete(foundArticle);
     }
 }

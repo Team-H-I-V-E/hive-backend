@@ -1,5 +1,6 @@
 export class AcquireStampDto {
     stampID: number;
     userID: number;
-    stampCoordinate: string;
+    userLatitude: number;
+    userLongitude: number;
   }

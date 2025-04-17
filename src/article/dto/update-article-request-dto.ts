@@ -1,8 +1,15 @@
-export class UpdateArticleDto {
+import { IsOptional, IsString, IsArray } from "class-validator";
 
-    userID: string;
-    articleTitle: string;
-    articleContents: string;
-    articleImage: string;
-    
+export class UpdateArticleDto {
+    @IsOptional()
+    @IsString()
+    articleTitle?: string;
+
+    @IsOptional()
+    @IsString()
+    articleContents?: string;
+
+    @IsOptional()
+    @IsArray()
+    articleImages?: string[];
 }

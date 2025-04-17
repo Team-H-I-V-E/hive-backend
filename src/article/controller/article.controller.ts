@@ -7,25 +7,25 @@ import { ArticleResponseDto } from '../dto/article-response.dto';
 
 @Controller('api/articles')
 export class ArticlesController {
-    constructor(private articlesService: ArticlesService){}
+    constructor(private articlesService: ArticlesService) { }
 
     @Get('/')
     async getAllArticles(): Promise<Article[]> {
-	    const articles: Article[] = await this.articlesService.getAllArticles();
+        const articles: Article[] = await this.articlesService.getAllArticles();
         return articles;
     }
 
     @Get('/detail/:id')
-    async getArticleDetailByID(articleID: number): Promise<Article> {
-        const article: Article = await this.articlesService.getArticleDetailByID(articleID);
-        return article;
+    async getArticleDetailById(@Param('id') articleId: number): Promise<Article> {
+        return await this.articlesService.getArticleDetailById(articleId);
     }
 
-    @Get('/search/:keyword')
-    async getArticlesByID(@Query('userID') userID: number): Promise<Article[]> {
-        const articles: Article[] = await this.articlesService.getArticlesByID(userID);
-        return articles;
+
+    @Get('/search/:userId')
+    async getArticlesById(@Param('userId') userId: number): Promise<Article[]> {
+        return await this.articlesService.getArticlesById(userId);
     }
+
 
     @Post('/')
     async createArticle(@Body() createArticleDto: CreateArticleDto): Promise<ArticleResponseDto> {
@@ -45,5 +45,5 @@ export class ArticlesController {
     async deleteArticleById(@Param('id') id: number): Promise<void> {
         await this.articlesService.deleteArticleById(id);
     }
-    
+
 }

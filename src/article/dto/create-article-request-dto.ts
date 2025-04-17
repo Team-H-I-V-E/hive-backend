@@ -1,14 +1,16 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsArray, IsOptional } from "class-validator";
 
 export class CreateArticleDto {
     @IsNotEmpty()
-    userID: number;
+    userId: number;
 
     @IsNotEmpty()
     articleTitle: string;
 
     @IsNotEmpty()
     articleContents: string;
-    
-    articleImage: string;
+
+    @IsOptional()
+    @IsArray()
+    articleImages?: string[];
 }
