@@ -37,6 +37,7 @@ import { MulterModule } from '@nestjs/platform-express';
     ArticleFavoriteModule,
     PanoramaFavoriteModule,
     HeritageModule,
+    ConfigModule.forRoot(),
     Heritage3DModelModule,
     ArExperienceModule,
     AuthModule,
