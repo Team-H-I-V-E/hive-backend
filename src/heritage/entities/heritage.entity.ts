@@ -24,6 +24,10 @@ export class Heritage {
   @Column({ type: 'float', default: 0 })
   heritageLongitude: number;
 
+  @Column({ default: '', length: 1000 })
+  heritageImageUrl: string;
+
+
   @OneToOne(() => Heritage3DModel, (model) => model.heritage)
   heritage3DModel?: Heritage3DModel;
 
