@@ -19,23 +19,20 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
 
-  // 이미지 파일 제공
+  // 이미지 폴더 정적 파일 제공
   const imagesPath = path.join(process.cwd(), 'public', 'images');
   app.use('/images', express.static(imagesPath));
 
-  // 업로드 정적 파일 제공 (예: 3D 모델 파일 등)
+  // 업로드 폴더 정적 파일 제공 (예: 3D 모델 파일 등)
   const uploadPath = path.join(process.cwd(), 'uploads');
   console.log('Serving uploads from:', uploadPath);
-  app.use(
-    '/uploads',
-    express.static(join(__dirname, '..', 'uploads'), {
-      setHeaders: (res, path) => {
-        if (path.endsWith('.glb')) {
-          res.setHeader('Content-Type', 'model/gltf-binary');
-        }
-      },
-    }),
-  );
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads'), {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.glb')) {
+        res.setHeader('Content-Type', 'model/gltf-binary');
+      }
+    },
+  }));
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
