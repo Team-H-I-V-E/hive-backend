@@ -29,4 +29,9 @@ export class CreateHeritageDto {
     @IsOptional()
     @IsNumber()
     heritageLongitude?: number;
+
+    @IsOptional()
+    @IsString()
+    heritageImageUrl?: string;
+  
 }

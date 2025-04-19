@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete, NotFoundException, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, NotFoundException, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CreateHeritageDto } from '../dto/heritage/create-heritage.dto';
 import { Heritage } from '../entities/heritage.entity';
 import { UpdateHeritageDto } from '../dto/heritage/update-heritage.dto';
 import { HeritageService } from '../service/heritage.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 
 @Controller('api/heritages')
@@ -55,5 +58,25 @@ export class HeritageController {
     async updateCoordinates() {
         await this.heritageService.updateCoordinates();
         return { message: '모든 유적지의 좌표 변환이 완료되었습니다.' };
+    }
+
+    @Post(':id/upload-image')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './public/images',
+            filename: (req, file, cb) => {
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `heritage-${uniqueSuffix}${ext}`);
+            },
+        }),
+    }))
+    async uploadImage(
+        @Param('id') id: number,
+        @UploadedFile() file: Express.Multer.File,
+    ): Promise<{ imageUrl: string }> {
+        const imageUrl = `/images/${file.filename}`;
+        await this.heritageService.updateHeritage(id, { heritageImageUrl: imageUrl });
+        return { imageUrl };
     }
 }
