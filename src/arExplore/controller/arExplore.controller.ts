@@ -25,7 +25,7 @@ export class ArExploreController {
     this.logger.log(`📦 미획득 스탬프 수: ${stamps.length}`);
     stamps.forEach((s) =>
       this.logger.log(
-        `🔸 ID: ${s.stampID}, 위도: ${s.stampLatitude}, 경도: ${s.stampLongitude}`,
+        `🔸 ID: ${s.stampID}, 위도: ${s.stampLatitude}, 경도: ${s.stampLongitude}, 이름: ${s.stampName}`,
       ),
     );
     return stamps;

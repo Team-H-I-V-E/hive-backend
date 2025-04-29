@@ -34,9 +34,9 @@ export class ArExploreService {
     return unacquired.map(stamp => {
       const stampDto = new StampDto();
       stampDto.stampID = stamp.stampID;
+      stampDto.stampName = stamp.stampName;
       stampDto.stampLatitude = Number(stamp.stampLatitude);
       stampDto.stampLongitude = Number(stamp.stampLongitude);
-      stampDto.stampImage = stamp.stampImage;
       
       return stampDto;
     });
