@@ -1,15 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
 import { Panorama } from './panorama.entity';
+import { MiniMapPoint } from './miniMapPoint.entity';
 
 @Entity()
 export class PanoramaImage {
     @PrimaryGeneratedColumn()
     panoramaImageId: number;
 
-    @ManyToOne(() => Panorama, panorama => panorama.panoramaImages)
-    @JoinColumn({ name: 'panoramaId' })
-    panorama: Panorama;    
-    
+    @ManyToOne(() => Panorama, panorama => panorama.panoramaImages, { onDelete: 'CASCADE' })
+    panorama: Panorama;
+
     @Column()
-    panoramaImage: string;
+    imageUrl: string;
+
+    @OneToOne(() => MiniMapPoint, miniMapPoint => miniMapPoint.targetPanoramaImage)
+    miniMapPoint: MiniMapPoint;
 }

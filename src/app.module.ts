@@ -16,6 +16,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import * as sqlite3 from 'sqlite3';
 import { MulterModule } from '@nestjs/platform-express';
+import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { MulterModule } from '@nestjs/platform-express';
     ArExperienceModule,
     AuthModule,
     UserModule,
+    MiniMapPointModule,
   ],
   controllers: [],
   providers: [
