@@ -9,10 +9,9 @@ import { ArticleResponseDto } from '../dto/article-response.dto';
 export class ArticlesController {
     constructor(private articlesService: ArticlesService) { }
 
-    @Get('/')
-    async getAllArticles(): Promise<Article[]> {
-        const articles: Article[] = await this.articlesService.getAllArticles();
-        return articles;
+    @Get('')
+    async getArticles(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+        return this.articlesService.getArticles(page, limit);
     }
 
     @Get('/detail/:id')

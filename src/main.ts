@@ -17,14 +17,16 @@ async function bootstrap() {
 
   // 정적 파일 제공 (절대 경로 사용)
   const uploadPath = path.join(process.cwd(), 'uploads');
-  console.log(' Serving uploads from:', uploadPath); 
+  console.log(' Serving uploads from:', uploadPath);
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads'), {
     setHeaders: (res, path) => {
       if (path.endsWith('.glb')) {
-        res.setHeader('Content-Type', 'model/gltf-binary'); 
+        res.setHeader('Content-Type', 'model/gltf-binary');
       }
     },
   }));
+
+  app.use('/', express.static(join(__dirname, '..', 'public')));
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
