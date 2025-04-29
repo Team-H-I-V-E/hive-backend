@@ -38,6 +38,7 @@ import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
     ArticleFavoriteModule,
     PanoramaFavoriteModule,
     HeritageModule,
+    ConfigModule.forRoot(),
     Heritage3DModelModule,
     ArExperienceModule,
     AuthModule,

@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Article } from '../entities/article.entity';
-import { CreateArticleDto } from '../dto/create-article-request-dto';
 import { UpdateArticleDto } from '../dto/update-article-request-dto';
 
 @Injectable()
@@ -45,12 +44,18 @@ export class ArticlesService {
         return foundArticles;
     }
 
-    async createArticle(createArticleDto: CreateArticleDto): Promise<Article> {
-        const { userId, articleTitle, articleContents, articleImages } = createArticleDto;
+    async createArticle(payload: {
+        userId: number;
+        articleTitle: string;
+        articleContents: string;
+        articleImages: string[];
+    }): Promise<Article> {
+        const { userId, articleTitle, articleContents, articleImages } = payload;
 
         if (!userId || !articleTitle || !articleContents) {
             throw new BadRequestException('Author, title, and contents must be provided');
         }
+
         const newArticle = this.articleRepository.create({
             userId,
             articleTitle,
@@ -59,6 +64,7 @@ export class ArticlesService {
                 articleImage: imagePath
             })) || []
         });
+
         return await this.articleRepository.save(newArticle);
     }
 
@@ -75,7 +81,9 @@ export class ArticlesService {
     }
 
     async deleteArticleById(id: number): Promise<void> {
-        const foundArticle = await this.getArticleDetailById(id);
-        await this.articleRepository.delete(foundArticle);
+        const result = await this.articleRepository.delete(id);
+        if (result.affected === 0) {
+            throw new NotFoundException(`게시글 ID ${id}를 찾을 수 없습니다.`);
+        }
     }
 }
