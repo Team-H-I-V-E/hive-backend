@@ -25,7 +25,7 @@ async function bootstrap() {
 
   // 업로드 폴더 정적 파일 제공 (예: 3D 모델 파일 등)
   const uploadPath = path.join(process.cwd(), 'uploads');
-  console.log('Serving uploads from:', uploadPath);
+  console.log(' Serving uploads from:', uploadPath);
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads'), {
     setHeaders: (res, path) => {
       if (path.endsWith('.glb')) {
@@ -33,6 +33,8 @@ async function bootstrap() {
       }
     },
   }));
+
+  app.use('/', express.static(join(__dirname, '..', 'public')));
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);

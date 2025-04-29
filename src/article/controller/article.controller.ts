@@ -12,11 +12,10 @@ import { ArticleResponseDto } from '../dto/article-response.dto';
 @Controller('api/articles')
 export class ArticlesController {
     constructor(private articlesService: ArticlesService) { }
-
-    // ✅ 전체 게시글 조회
-    @Get('/')
-    async getAllArticles(): Promise<Article[]> {
-        return await this.articlesService.getAllArticles();
+  
+    @Get('')
+    async getArticles(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+        return this.articlesService.getArticles(page, limit);
     }
 
     // ✅ 단일 게시글 조회

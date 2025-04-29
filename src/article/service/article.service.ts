@@ -11,11 +11,14 @@ export class ArticlesService {
         private articleRepository: Repository<Article>
     ) { }
 
-    async getAllArticles(): Promise<Article[]> {
-        const foundArticles = await this.articleRepository.find({
+    async getArticles(page: number, limit: number) {
+        const skip = (page - 1) * limit;
+        return this.articleRepository.find({
+            skip: skip,
+            take: limit,
+            order: { articleCreatedAt: 'DESC' },
             relations: ['articleImages'],
         });
-        return foundArticles;
     }
 
     async getArticleDetailById(articleId: number): Promise<Article> {
