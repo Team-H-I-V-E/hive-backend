@@ -7,7 +7,7 @@ import { Stamp } from '../entities/stamp.entity';
 import { StampDto } from '../dto/stamp.dto';
 
 @Injectable()
-export class ArExperienceService {
+export class ArExploreService {
   constructor(
     @InjectRepository(CollectedStamp)
     private readonly collectedStampRepository: Repository<CollectedStamp>,

@@ -5,9 +5,6 @@ export class Stamp {
   @PrimaryGeneratedColumn()
   stampID: number;
 
-  // @Column()
-  // panoramaViewerID: number;
-
   @Column({ type: 'varchar', length: 255, nullable: true })
   stampImage: string | null;
 
