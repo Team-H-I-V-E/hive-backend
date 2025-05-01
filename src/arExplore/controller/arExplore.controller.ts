@@ -1,18 +1,18 @@
 import { Controller, Get, Post, Param, Body, Logger } from '@nestjs/common';
-import { ArExperienceService } from '../service/arExperience.service';
+import { ArExploreService } from '../service/arExplore.service';
 import { AcquireStampDto } from '../dto/acquire-stamp.dto';
 
-@Controller('api/arexperience')
-export class ArExperienceController {
-  private readonly logger = new Logger(ArExperienceController.name);
+@Controller('api/arexplore')
+export class ArExploreController {
+  private readonly logger = new Logger(ArExploreController.name);
 
-  constructor(private readonly arExperienceService: ArExperienceService) {}
+  constructor(private readonly arExploreService: ArExploreService) {}
 
   // 사용자가 획득한 스탬프 목록 조회
   @Get(':userId/stamps')
   async getStamps(@Param('userId') userId: number) {
     this.logger.log(`📥 [GET] /${userId}/stamps 호출됨`);
-    const stamps = await this.arExperienceService.getStamps(userId);
+    const stamps = await this.arExploreService.getStamps(userId);
     this.logger.log(`📦 획득한 스탬프 수: ${stamps.length}`);
     return stamps;
   }
@@ -21,11 +21,11 @@ export class ArExperienceController {
   @Get(':userId/unacquired-stamps')
   async getUnacquiredStamps(@Param('userId') userId: number) {
     this.logger.log(`📥 [GET] /${userId}/unacquired-stamps 호출됨`);
-    const stamps = await this.arExperienceService.getUnacquiredStamps(userId);
+    const stamps = await this.arExploreService.getUnacquiredStamps(userId);
     this.logger.log(`📦 미획득 스탬프 수: ${stamps.length}`);
     stamps.forEach((s) =>
       this.logger.log(
-        `🔸 ID: ${s.stampID}, 위도: ${s.stampLatitude}, 경도: ${s.stampLongitude}`,
+        `🔸 ID: ${s.stampID}, 위도: ${s.stampLatitude}, 경도: ${s.stampLongitude}, 이름: ${s.stampName}`,
       ),
     );
     return stamps;
@@ -49,7 +49,7 @@ export class ArExperienceController {
       userLongitude: body.userLongitude,
     };
 
-    const result = await this.arExperienceService.acquireStamp(acquireStampDto);
+    const result = await this.arExploreService.acquireStamp(acquireStampDto);
     this.logger.log(`✅ 스탬프 획득 처리 결과: ${JSON.stringify(result)}`);
     return result;
   }

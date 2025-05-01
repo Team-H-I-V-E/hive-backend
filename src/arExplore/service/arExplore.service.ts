@@ -7,7 +7,7 @@ import { Stamp } from '../entities/stamp.entity';
 import { StampDto } from '../dto/stamp.dto';
 
 @Injectable()
-export class ArExperienceService {
+export class ArExploreService {
   constructor(
     @InjectRepository(CollectedStamp)
     private readonly collectedStampRepository: Repository<CollectedStamp>,
@@ -34,9 +34,9 @@ export class ArExperienceService {
     return unacquired.map(stamp => {
       const stampDto = new StampDto();
       stampDto.stampID = stamp.stampID;
+      stampDto.stampName = stamp.stampName;
       stampDto.stampLatitude = Number(stamp.stampLatitude);
       stampDto.stampLongitude = Number(stamp.stampLongitude);
-      stampDto.stampImage = stamp.stampImage;
       
       return stampDto;
     });
@@ -66,6 +66,20 @@ export class ArExperienceService {
 
     await this.collectedStampRepository.save(newCollectedStamp);
 
-    return { message: 'Stamp acquired', stampId: stampID };
+    // 획득한 스탬프의 상세 정보를 반환
+    const stampDto = new StampDto();
+    stampDto.stampID = stamp.stampID;
+    stampDto.stampName = stamp.stampName;
+    stampDto.stampPeriod = stamp.stampPeriod;
+    stampDto.stampDescription = stamp.stampDescription;
+    stampDto.stampLocation = stamp.stampLocation;
+    stampDto.stampLatitude = Number(stamp.stampLatitude);
+    stampDto.stampLongitude = Number(stamp.stampLongitude);
+    stampDto.stampImage = stamp.stampImage;
+
+    return { 
+      message: 'Stamp acquired', 
+      stampId: stampID,
+      stampDetails: stampDto };
   }
 }
