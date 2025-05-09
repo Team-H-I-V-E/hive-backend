@@ -92,6 +92,8 @@ export class ArExploreService {
     stampDto.stampLongitude = stampLongitude;
     stampDto.stampImage = stamp.stampImage;
 
+    stampDto.stampImage = 'http://localhost:3000' + stamp.stampImage;
+
     return {
       message: 'Stamp acquired',
       stampId: stampID,
