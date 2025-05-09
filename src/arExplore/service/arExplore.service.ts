@@ -5,13 +5,17 @@ import { CollectedStamp } from '../entities/collectedStamp.entity';
 import { AcquireStampDto } from '../dto/acquire-stamp.dto';
 import { Stamp } from '../entities/stamp.entity';
 import { StampDto } from '../dto/stamp.dto';
+import axios from 'axios';
+import { parseString, Builder } from "xml2js";
 
 @Injectable()
 export class ArExploreService {
+  private readonly API_URL = 'https://www.khs.go.kr/cha/SearchKindOpenapiDt.do';
+
   constructor(
     @InjectRepository(CollectedStamp)
     private readonly collectedStampRepository: Repository<CollectedStamp>,
-    
+
     @InjectRepository(Stamp)
     private readonly stampRepository: Repository<Stamp>,
   ) {}
@@ -30,7 +34,7 @@ export class ArExploreService {
     const collectedStampIds = new Set(collectedStamps.map(stamp => stamp.stampID));
   
     const unacquired = allStamps.filter(stamp => !collectedStampIds.has(stamp.stampID));
-  
+
     return unacquired.map(stamp => {
       const stampDto = new StampDto();
       stampDto.stampID = stamp.stampID;
@@ -41,14 +45,14 @@ export class ArExploreService {
       return stampDto;
     });
   }
-  
+
   async acquireStamp(acquireStampDto: AcquireStampDto) {
     const { userID, stampID } = acquireStampDto;
 
     // 이미 획득한 스탬프인지 확인
     const existingStamp = await this.collectedStampRepository.findOne({ where: { userID, stampID } });
     if (existingStamp) {
-        throw new BadRequestException('Stamp has already been acquired');
+      throw new BadRequestException('Stamp has already been acquired');
     }
 
     // 존재하는 스탬프인지 확인
@@ -59,9 +63,9 @@ export class ArExploreService {
 
     // 스탬프 획득 로직
     const newCollectedStamp = this.collectedStampRepository.create({
-        userID: userID,
-        stampID: stampID,
-        stampTime: new Date(),
+      userID: userID,
+      stampID: stampID,
+      stampTime: new Date(),
     });
 
     await this.collectedStampRepository.save(newCollectedStamp);
@@ -77,9 +81,61 @@ export class ArExploreService {
     stampDto.stampLongitude = Number(stamp.stampLongitude);
     stampDto.stampImage = stamp.stampImage;
 
-    return { 
-      message: 'Stamp acquired', 
+    return {
+      message: 'Stamp acquired',
       stampId: stampID,
-      stampDetails: stampDto };
+      stampDetails: stampDto,
+    };
   }
-}
+
+  private toJson(xml: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      parseString(xml, { explicitArray: false }, (error, result) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(result);
+      });
+    });
+  }
+
+  async fetchAndParseData() {
+    try {
+      const ccbaCpno = '2334500100000';
+  
+      const url = `${this.API_URL}?&ccbaCpno=${ccbaCpno}`;
+      const response = await axios.get(url, { headers: { 'Content-Type': 'application/xml' } });
+      
+      // XML을 JSON으로 변환
+      const jsonData = await this.toJson(response.data);
+      console.log('Converted JSON:', jsonData);
+  
+      // jsonData.result.item이 배열이 아니면 배열로 처리
+      const stampData = Array.isArray(jsonData.result.item) ? jsonData.result.item : [jsonData.result.item];
+  
+      if (stampData.length > 0) {
+        for (const item of stampData) {
+          // 고유값을 정수로 생성
+          const newStamp = this.stampRepository.create({
+            stampNum: ccbaCpno,
+            stampName: item.ccbaMnm1 || '미상',
+            stampPeriod: item.ccceName || '미상',
+            stampDescription: item.content || '설명 없음',
+            stampLocation: item.ccbaLcad || '위치 정보 없음',
+            stampLatitude: item.latitude || 0,
+            stampLongitude: item.longitude || 0,
+            stampImage: item.imageUrl || null,
+          });
+  
+          // DB에 저장
+          await this.stampRepository.save(newStamp);
+        }
+      } else {
+        console.error('No valid items found in the response data');
+      }
+      
+    } catch (error) {
+      console.error('Error fetching and parsing data:', error.message);
+    }
+  }
+}  
