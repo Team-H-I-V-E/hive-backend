@@ -89,40 +89,46 @@ export class ArExploreService {
 
   async fetchAndParseData() {
     try {
-      const ccbaCpno = '2334500100000';
-      const url = `${this.API_URL}?&ccbaCpno=${ccbaCpno}`;
-      const response = await axios.get(url, { headers: { 'Content-Type': 'application/xml' } });
+      const ccbaCpnos = ['1124521190000', '1483301380000', '2114500010000', '2334500010000', '2334500060000', '2334500070000', '2334500100000'];
+    
+      const responses = await Promise.all(
+        ccbaCpnos.map(ccbaCpno => 
+          axios.get(`${this.API_URL}?&ccbaCpno=${ccbaCpno}`, { headers: { 'Content-Type': 'application/xml' } })
+            .then(response => ({ response, ccbaCpno }))
+        )
+      );
       
-      // XML을 JSON으로 변환
-      const jsonData = await this.toJson(response.data);
+      for (const { response, ccbaCpno } of responses) {
+        const jsonData = await this.toJson(response.data);
       // console.log('Converted JSON:', jsonData);
 
-      const stampData = Array.isArray(jsonData.result.item) ? jsonData.result.item : [jsonData.result.item];
-
-      if (stampData.length > 0) {
-        for (const item of stampData) {
-          const stampName = this.cleanString(item.ccbaMnm1 || '미상');
-          const stampPeriod = this.cleanString(item.ccceName || '미상');
-          const stampDescription = this.cleanString(item.content || '설명 없음');
-          const stampLocation = this.cleanString(item.ccbaLcad || '위치 정보 없음');
-          
-          const newStamp = this.stampRepository.create({
-            stampNum: ccbaCpno,
-            stampName: stampName,
-            stampPeriod: stampPeriod,
-            stampDescription: stampDescription,
-            stampLocation: stampLocation,
-            stampLatitude: item.latitude || 0,
-            stampLongitude: item.longitude || 0,
-            stampImage: item.imageUrl || null,
-          });
-
-          await this.stampRepository.save(newStamp);
+        const stampData = Array.isArray(jsonData.result.item) ? jsonData.result.item : [jsonData.result.item];
+    
+        if (stampData.length > 0) {
+          for (const item of stampData) {
+            const stampName = this.cleanString(item.ccbaMnm1 || '미상');
+            const stampPeriod = this.cleanString(item.ccceName || '미상');
+            const stampDescription = this.cleanString(item.content || '설명 없음');
+            const stampLocation = this.cleanString(item.ccbaLcad || '위치 정보 없음');
+            
+            const newStamp = this.stampRepository.create({
+              stampNum: ccbaCpno,
+              stampName: stampName,
+              stampPeriod: stampPeriod,
+              stampDescription: stampDescription,
+              stampLocation: stampLocation,
+              stampLatitude: item.latitude || 0,
+              stampLongitude: item.longitude || 0,
+              stampImage: item.imageUrl || null,
+            });
+    
+            await this.stampRepository.save(newStamp);
+          }
+        } else {
+          console.error('No valid items found in the response data for ccbaCpno:', ccbaCpno);
         }
-      } else {
-        console.error('No valid items found in the response data');
       }
-      
+    
     } catch (error) {
       console.error('Error fetching and parsing data:', error.message);
     }
