@@ -41,7 +41,6 @@ export class ArExploreService {
       stampDto.stampName = stamp.stampName;
       stampDto.stampLatitude = Number(stamp.stampLatitude);
       stampDto.stampLongitude = Number(stamp.stampLongitude);
-      
       return stampDto;
     });
   }
@@ -88,6 +87,47 @@ export class ArExploreService {
     };
   }
 
+  async fetchAndParseData() {
+    try {
+      const ccbaCpno = '2334500100000';
+      const url = `${this.API_URL}?&ccbaCpno=${ccbaCpno}`;
+      const response = await axios.get(url, { headers: { 'Content-Type': 'application/xml' } });
+      
+      // XML을 JSON으로 변환
+      const jsonData = await this.toJson(response.data);
+      // console.log('Converted JSON:', jsonData);
+
+      const stampData = Array.isArray(jsonData.result.item) ? jsonData.result.item : [jsonData.result.item];
+
+      if (stampData.length > 0) {
+        for (const item of stampData) {
+          const stampName = this.cleanString(item.ccbaMnm1 || '미상');
+          const stampPeriod = this.cleanString(item.ccceName || '미상');
+          const stampDescription = this.cleanString(item.content || '설명 없음');
+          const stampLocation = this.cleanString(item.ccbaLcad || '위치 정보 없음');
+          
+          const newStamp = this.stampRepository.create({
+            stampNum: ccbaCpno,
+            stampName: stampName,
+            stampPeriod: stampPeriod,
+            stampDescription: stampDescription,
+            stampLocation: stampLocation,
+            stampLatitude: item.latitude || 0,
+            stampLongitude: item.longitude || 0,
+            stampImage: item.imageUrl || null,
+          });
+
+          await this.stampRepository.save(newStamp);
+        }
+      } else {
+        console.error('No valid items found in the response data');
+      }
+      
+    } catch (error) {
+      console.error('Error fetching and parsing data:', error.message);
+    }
+  }
+
   private toJson(xml: string): Promise<any> {
     return new Promise((resolve, reject) => {
       parseString(xml, { explicitArray: false }, (error, result) => {
@@ -99,43 +139,7 @@ export class ArExploreService {
     });
   }
 
-  async fetchAndParseData() {
-    try {
-      const ccbaCpno = '2334500100000';
-  
-      const url = `${this.API_URL}?&ccbaCpno=${ccbaCpno}`;
-      const response = await axios.get(url, { headers: { 'Content-Type': 'application/xml' } });
-      
-      // XML을 JSON으로 변환
-      const jsonData = await this.toJson(response.data);
-      console.log('Converted JSON:', jsonData);
-  
-      // jsonData.result.item이 배열이 아니면 배열로 처리
-      const stampData = Array.isArray(jsonData.result.item) ? jsonData.result.item : [jsonData.result.item];
-  
-      if (stampData.length > 0) {
-        for (const item of stampData) {
-          // 고유값을 정수로 생성
-          const newStamp = this.stampRepository.create({
-            stampNum: ccbaCpno,
-            stampName: item.ccbaMnm1 || '미상',
-            stampPeriod: item.ccceName || '미상',
-            stampDescription: item.content || '설명 없음',
-            stampLocation: item.ccbaLcad || '위치 정보 없음',
-            stampLatitude: item.latitude || 0,
-            stampLongitude: item.longitude || 0,
-            stampImage: item.imageUrl || null,
-          });
-  
-          // DB에 저장
-          await this.stampRepository.save(newStamp);
-        }
-      } else {
-        console.error('No valid items found in the response data');
-      }
-      
-    } catch (error) {
-      console.error('Error fetching and parsing data:', error.message);
-    }
+  private cleanString(input: string): string {
+    return input.replace(/[\r\n\t\s]+/g, ' ').trim();
   }
-}  
+}
