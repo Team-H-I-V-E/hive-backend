@@ -53,4 +53,16 @@ export class ArExploreController {
     this.logger.log(`✅ 스탬프 획득 처리 결과: ${JSON.stringify(result)}`);
     return result;
   }
+
+  // 공공 API 데이터 저장
+  @Get('fetch-data')
+  async fetchData() {
+    try {
+      this.logger.log(`📥 [GET] /fetch-data 호출됨`);
+      await this.arExploreService.fetchAndParseData();
+      return { message: '세종시 문화유산 데이터 저장 완료' };
+    } catch (error) {
+      this.logger.error('데이터 저장 실패', error.message);
+    }
+  }
 }
