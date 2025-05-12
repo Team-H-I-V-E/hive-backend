@@ -7,6 +7,9 @@ export class Panorama {
     @PrimaryGeneratedColumn()
     panoramaId: number;
 
+    @Column({ nullable: true })
+    ruinsImage: string;
+
     @Column()
     ruinsName: string;
 
