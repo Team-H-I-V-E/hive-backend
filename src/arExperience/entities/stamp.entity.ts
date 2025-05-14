@@ -8,9 +8,12 @@ export class Stamp {
   // @Column()
   // panoramaViewerID: number;
 
-  @Column()
-  stampImage: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  stampImage: string | null;
 
-  @Column('point')
-  stampCoordinate: string; // 위도, 경도
+  @Column('decimal', { precision: 30, scale: 18 })
+  stampLatitude: number;
+
+  @Column('decimal', { precision: 30, scale: 18 })
+  stampLongitude: number;
 }

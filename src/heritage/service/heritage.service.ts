@@ -97,8 +97,13 @@ export class HeritageService {
 
     //유물 특정 조회
     async getHeritageById(id: number): Promise<Heritage | null> {
-        return this.heritageRepository.findOne({ where: { heritageId: id } });
+        return this.heritageRepository
+            .createQueryBuilder('heritage')
+            .leftJoinAndSelect('heritage.heritage3DModel', 'heritage3DModel')
+            .where('heritage.heritageId = :id', { id })
+            .getOne();
     }
+    
 
     // 주소를 위도, 경도로 변환하는 함수
     async getCoordinatesFromAddress(heritageLocation: string): Promise<{ latitude: number, longitude: number }> {

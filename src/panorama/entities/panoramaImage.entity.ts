@@ -1,10 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Panorama } from './panorama.entity';
 
 @Entity()
 export class PanoramaImage {
     @PrimaryGeneratedColumn()
-    panoramaViewerImageID: number;
+    panoramaImageId: number;
 
+    @ManyToOne(() => Panorama, panorama => panorama.panoramaImages)
+    @JoinColumn({ name: 'panoramaId' })
+    panorama: Panorama;    
+    
     @Column()
-    panoramaViewerImage: string;
+    panoramaImage: string;
 }

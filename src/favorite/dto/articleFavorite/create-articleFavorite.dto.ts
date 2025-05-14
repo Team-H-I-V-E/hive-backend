@@ -3,9 +3,9 @@ import { IsNotEmpty } from "class-validator";
 export class CreateArticleFavoriteDto {
 
     @IsNotEmpty()
-    articleID: number;
+    articleId: number;
 
     @IsNotEmpty()
-    userID: number;
+    userId: number;
 
 }

@@ -9,9 +9,9 @@ export class ArticleFavoriteController {
     constructor(private articleFavoriteService: ArticleFavoriteService) {}
 
     // 즐겨찾기한 게시글 모두 조회
-    @Get('/:userID')
-    async getAllArticleFavorite(userID: number): Promise<Article[]> {
-        const articles: Article[] = await this.articleFavoriteService.getAllArticleFavorite(userID);
+    @Get('/:userId')
+    async getAllArticleFavorite(userId: number): Promise<Article[]> {
+        const articles: Article[] = await this.articleFavoriteService.getAllArticleFavorite(userId);
         return articles;
     }
 
@@ -22,9 +22,9 @@ export class ArticleFavoriteController {
     }
 
     // 즐겨찾기한 게시글 삭제
-    @Delete('/:articleFavoriteID')
-    async deletearticleFavorite(@Param('articleFavoriteID') articleFavoriteID: number): Promise<void> {
-        await this.articleFavoriteService.deleteArticleFavorite(articleFavoriteID);
+    @Delete('/:articleFavoriteId')
+    async deletearticleFavorite(@Param('articleFavoriteId') articleFavoriteId: number): Promise<void> {
+        await this.articleFavoriteService.deleteArticleFavorite(articleFavoriteId);
     }
 
 }

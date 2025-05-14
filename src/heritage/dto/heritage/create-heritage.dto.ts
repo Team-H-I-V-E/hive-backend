@@ -8,10 +8,6 @@ export class CreateHeritageDto {
     @IsOptional()
     @IsNumber()
     heritageModelId?: number;
-
-    @IsOptional()
-    @IsNumber()
-    heritage3dModelId?: number;
     
     @IsString()
     heritageName: string;

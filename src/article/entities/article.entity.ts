@@ -1,12 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { ArticleImage } from "./article-image.entity";
 
 @Entity()
 export class Article {
     @PrimaryGeneratedColumn()
-    articleID: number;
+    articleId: number;
 
     @Column()
-    userID: number;
+    userId: number;
 
     @Column()
     articleTitle: string;
@@ -14,10 +15,12 @@ export class Article {
     @Column()
     articleContents: string;
 
-    @Column()
-    articleImage: string;
+    @OneToMany(() => ArticleImage, image => image.article, { cascade: true })
+    articleImages: ArticleImage[];
 
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false })
+    @CreateDateColumn({ type: 'timestamp' })
     articleCreatedAt: Date;
 
+    @UpdateDateColumn({ type: 'timestamp' })
+    articleUpdatedAt: Date;
 }
