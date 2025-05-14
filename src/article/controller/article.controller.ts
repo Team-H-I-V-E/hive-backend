@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ArticlesService } from '../service/article.service';
 import { Article } from '../entities/article.entity';
 import { CreateArticleDto } from '../dto/create-article-request-dto';
 import { UpdateArticleDto } from '../dto/update-article-request-dto';
 import { ArticleResponseDto } from '../dto/article-response.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/articles')
 export class ArticlesController {
