@@ -36,4 +36,7 @@ export class Panorama {
 
     @Column({ nullable: true })
     minimapImage: string;
+
+    @Column({ default: false })
+    isStamped: boolean;
 }
