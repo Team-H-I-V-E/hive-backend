@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { CollectedStamp } from 'src/collectionStamp/entities/collectedStamp.entity';
+import { Entity, Column, PrimaryGeneratedColumn, Unique, OneToMany } from 'typeorm';
 
 @Entity()
 @Unique(['stampNum'])
@@ -29,4 +30,7 @@ export class Stamp {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   stampImage: string | null;
+
+  @OneToMany(() => CollectedStamp, cs => cs.stamp)
+  collectedStamps: CollectedStamp[];
 }
