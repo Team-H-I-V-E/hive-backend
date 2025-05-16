@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CollectedStamp } from '../entities/collectedStamp.entity';
 import { AcquireStampDto } from '../dto/acquire-stamp.dto';
 import { Stamp } from '../entities/stamp.entity';
 import { StampDto } from '../dto/stamp.dto';
 import axios from 'axios';
 import { parseString, Builder } from "xml2js";
+import { CollectedStamp } from 'src/collectionStamp/entities/collectedStamp.entity';
 
 @Injectable()
 export class ArExploreService {
