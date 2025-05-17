@@ -17,6 +17,7 @@ import { join } from 'path';
 import * as sqlite3 from 'sqlite3';
 import { MulterModule } from '@nestjs/platform-express';
 import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
+import { CollectionStampModule } from './collectionStamp/collection.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
     AuthModule,
     UserModule,
     MiniMapPointModule,
+    CollectionStampModule,
   ],
   controllers: [],
   providers: [
