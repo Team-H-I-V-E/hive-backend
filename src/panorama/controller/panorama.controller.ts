@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { PanoramaService } from '../service/panorama.service';
 import { Panorama } from '../entities/panorama.entity';
-import { PanoramaResponseDto } from '../dto/panorama/panorama-response.dto';
+import { PanoramaResponseDto } from '../dto/panorama-response.dto';
 
 @Controller('api/panorama')
 export class PanoramaController {

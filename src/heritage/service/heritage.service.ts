@@ -144,4 +144,12 @@ export class HeritageService {
         }
         console.log('좌표 변환 및 DB 업데이트 완료');
     }
+
+    async updateImageUrl(id: number, imageUrl: string): Promise<Heritage> {
+        const heritage = await this.getHeritageById(id);
+        if (!heritage) throw new NotFoundException(`Heritage with ID ${id} not found`);
+        heritage.heritageImageUrl = imageUrl;
+        return this.heritageRepository.save(heritage);
+      }
+      
 }

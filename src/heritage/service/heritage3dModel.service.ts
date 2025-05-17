@@ -61,7 +61,7 @@ export class Heritage3DModelService {
       throw new HttpException('Failed to upload file', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  // ✅ 추가: 3D 모델 정보 DB 저장
+  // 추가: 3D 모델 정보 DB 저장
   async saveModel(modelData: Partial<Heritage3DModel>): Promise<Heritage3DModel> {
     const newModel = this.heritage3DModelRepository.create(modelData);
     return this.heritage3DModelRepository.save(newModel);

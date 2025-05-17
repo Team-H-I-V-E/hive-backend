@@ -32,4 +32,9 @@ export class UpdateHeritageDto {
     @IsOptional()
     @IsNumber()
     heritageLongitude?: number;
+
+    @IsOptional()
+    @IsString()
+    heritageImageUrl?: string;
+  
 }

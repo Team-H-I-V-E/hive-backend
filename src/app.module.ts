@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { typeOrmConfig } from './configs/typeorm.config';
 import { HeritageModule } from './heritage/heritage.module';
-import { ArExperienceModule } from './arExperience/arExperience.module';
+import { ArExploreModule } from './arExplore/arExplore.module';
 import { ArticleModule } from './article/article.module';
 import { PanoramaModule } from './panorama/panorama.module';
 import { ArticleFavoriteModule } from './favorite/articleFavorite.module';
@@ -16,6 +16,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import * as sqlite3 from 'sqlite3';
 import { MulterModule } from '@nestjs/platform-express';
+import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
+import { CollectionStampModule } from './collectionStamp/collection.module';
 
 @Module({
   imports: [
@@ -39,9 +41,11 @@ import { MulterModule } from '@nestjs/platform-express';
     HeritageModule,
     ConfigModule.forRoot(),
     Heritage3DModelModule,
-    ArExperienceModule,
+    ArExploreModule,
     AuthModule,
     UserModule,
+    MiniMapPointModule,
+    CollectionStampModule,
   ],
   controllers: [],
   providers: [
