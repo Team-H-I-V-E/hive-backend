@@ -1,40 +1,55 @@
-import { IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsDateString } from 'class-validator';
 
 export class UpdateHeritageDto {
-    @IsOptional()
-    @IsNumber()
-    heritageStoryId?: number;
+  @IsOptional()
+  @IsNumber()
+  heritageStoryId?: number;
 
-    @IsOptional()
-    @IsNumber()
-    heritageModelId?: number;
+  @IsOptional()
+  @IsNumber()
+  heritageModelId?: number;
 
-    @IsOptional()
-    @IsString()
-    heritageName?: string;
+  @IsOptional()
+  @IsString()
+  heritageName?: string;
 
-    @IsOptional()
-    @IsString()
-    heritageDescription?: string;
+  @IsOptional()
+  @IsString()
+  heritageType?: string;
 
-    @IsOptional()
-    @IsString()
-    heritageYear?: string;
+  @IsOptional()
+  @IsString()
+  heritageYear?: string;
 
-    @IsOptional()
-    @IsString()
-    heritageLocation?: string;
+  @IsOptional()
+  @IsString()
+  heritageCategory?: string;
 
-    @IsOptional()
-    @IsNumber()
-    heritageLatitude?: number;
+  @IsOptional()
+  @IsString()
+  heritagePeriodArea?: string;
 
-    @IsOptional()
-    @IsNumber()
-    heritageLongitude?: number;
+  @IsOptional()
+  @IsDateString()
+  designationDate?: string;
 
-    @IsOptional()
-    @IsString()
-    heritageImageUrl?: string;
-  
+  @IsOptional()
+  @IsString()
+  heritageLocation?: string;
+
+  @IsOptional()
+  @IsString()
+  heritageDescription?: string;
+
+  @IsOptional()
+  @IsNumber()
+  heritageLatitude?: number;
+
+  @IsOptional()
+  @IsNumber()
+  heritageLongitude?: number;
+
+  @IsOptional()
+  @IsString()
+  heritageImageUrl?: string;
 }
