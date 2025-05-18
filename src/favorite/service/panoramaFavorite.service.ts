@@ -1,8 +1,8 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { PanoramaFavoriteRequestDto } from "../dto/panoramaFavorite/panoramaFavorite-request.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { In, Repository } from "typeorm";
+import { Repository, In } from "typeorm";
 import { PanoramaFavorite } from "../entities/panoramaFavorite.entity";
+import { PanoramaFavoriteRequestDto } from "../dto/panoramaFavorite/panoramaFavorite-request.dto";
 import { Panorama } from "src/panorama/entities/panorama.entity";
 
 @Injectable()
@@ -15,42 +15,27 @@ export class PanoramaFavoriteService {
     ) { }
 
     async getAllPanoramaFavorite(userId: number): Promise<Panorama[]> {
-        const foundFavorites = await this.panoramaFavoriteRepository.findBy({ userId });
-    
-        if (foundFavorites.length === 0) {
-            return [];
-        }
-    
-        const panoramaIds = foundFavorites.map(fav => fav.panoramaId); // ← 여긴 panoramaFavoriteId 말고 panoramaId겠죠?
-        
-        const panoramas = await this.panoramaRepository.findBy({
-            panoramaId: In(panoramaIds),
-        });
-    
-        return panoramas;
-    }    
+        const favorites = await this.panoramaFavoriteRepository.findBy({ userId });
+        if (favorites.length === 0) return [];
 
-    async addPanoramaFavorite(favorite: PanoramaFavoriteRequestDto): Promise<string> {
+        const panoramaIds = favorites.map(fav => fav.panoramaId);
+        return await this.panoramaRepository.findBy({ panoramaId: In(panoramaIds) });
+    }
+
+    async addPanoramaFavorite(dto: PanoramaFavoriteRequestDto): Promise<void> {
         try {
-            await this.panoramaFavoriteRepository.save(favorite);
-            return 'Panorama Favorite created successfully';
+            await this.panoramaFavoriteRepository.save(dto);
         } catch (error) {
-            throw new InternalServerErrorException('Database query failed', error);
+            throw new InternalServerErrorException('Database insert failed', error);
         }
     }
 
-    async foundPanoramaFavoriteById(panoramaFavoriteId: number): Promise<PanoramaFavorite> {
-        const foundFavorite = await this.panoramaFavoriteRepository.findOne({
-            where: { panoramaFavoriteId: panoramaFavoriteId },
-        });
-        if (!foundFavorite) {
-            throw new NotFoundException(`PanoramaFavorite with Id ${panoramaFavoriteId} not found.`);
+    async deleteByUserAndPanorama(userId: number, panoramaId: number): Promise<void> {
+        const favorite = await this.panoramaFavoriteRepository.findOneBy({ userId, panoramaId });
+        if (!favorite) {
+            throw new NotFoundException(`즐겨찾기 기록이 존재하지 않습니다.`);
         }
-        return foundFavorite;
-    }
 
-    async deletePanoramaFavorite(panoramaFavoriteId: number): Promise<void> {
-        const foundPanoramaFavorite = await this.foundPanoramaFavoriteById(panoramaFavoriteId);
-        await this.panoramaFavoriteRepository.remove(foundPanoramaFavorite);
+        await this.panoramaFavoriteRepository.remove(favorite);
     }
 }

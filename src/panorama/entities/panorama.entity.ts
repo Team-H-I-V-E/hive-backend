@@ -7,6 +7,9 @@ export class Panorama {
     @PrimaryGeneratedColumn()
     panoramaId: number;
 
+    @Column({ nullable: true })
+    ruinsImage: string;
+
     @Column()
     ruinsName: string;
 
@@ -33,4 +36,7 @@ export class Panorama {
 
     @Column({ nullable: true })
     minimapImage: string;
+
+    @Column({ default: false })
+    isStamped: boolean;
 }

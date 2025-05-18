@@ -5,22 +5,25 @@ import { Panorama } from "src/panorama/entities/panorama.entity";
 
 @Controller('api/panoramaFavorite')
 export class PanoramaFavoriteController {
-
-    constructor(private panoramaFavoriteService: PanoramaFavoriteService) {}
+    constructor(private panoramaFavoriteService: PanoramaFavoriteService) { }
 
     @Get('/:userId')
-    async getAllPanoramaFavorite(userId: number): Promise<Panorama[]> {
-            const panorama: Panorama[] = await this.panoramaFavoriteService.getAllPanoramaFavorite(userId);
-            return panorama;
-        }
-
-    @Post('/')
-    async addPanoramaFavorite(@Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto): Promise<void>  {
-        this.panoramaFavoriteService.addPanoramaFavorite(panoramaFavoriteRequestDto);
+    async getAllPanoramaFavorite(@Param('userId') userId: number): Promise<Panorama[]> {
+        return this.panoramaFavoriteService.getAllPanoramaFavorite(userId);
     }
 
-    @Delete('/:panoramaFavoriteId')
-    async deletePanoramaFavorite(@Param('panoramaFavoriteId') panoramaFavoriteId: number): Promise<void>{
-        this.panoramaFavoriteService.deletePanoramaFavorite(panoramaFavoriteId);
+    @Post('/')
+    async addPanoramaFavorite(
+        @Body() panoramaFavoriteRequestDto: PanoramaFavoriteRequestDto
+    ): Promise<void> {
+        return this.panoramaFavoriteService.addPanoramaFavorite(panoramaFavoriteRequestDto);
+    }
+
+    @Delete('/user/:userId/panorama/:panoramaId')
+    async deleteByUserAndPanorama(
+        @Param('userId') userId: number,
+        @Param('panoramaId') panoramaId: number
+    ): Promise<void> {
+        return this.panoramaFavoriteService.deleteByUserAndPanorama(userId, panoramaId);
     }
 }
