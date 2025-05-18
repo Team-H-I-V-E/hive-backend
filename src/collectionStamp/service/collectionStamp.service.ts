@@ -47,6 +47,8 @@ export class CollectionStampService {
       stampPeriod:   stamp.stampPeriod,
       stampLocation: stamp.stampLocation,
       stampTime:     collected?.stampTime ?? null,
+      stampLatitude: stamp.stampLatitude,
+      stampLongitude: stamp.stampLongitude,
     };
   }
 }
