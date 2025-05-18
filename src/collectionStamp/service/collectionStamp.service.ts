@@ -27,6 +27,9 @@ export class CollectionStampService {
       stampID:   s.stampID,
       stampName: s.stampName,
       acquired:  got.has(s.stampID),
+      stampImage: got.has(s.stampID)
+    ? `http://localhost:3000${s.stampImage}`
+    : null,
     }));
   }
 
@@ -44,6 +47,8 @@ export class CollectionStampService {
       stampPeriod:   stamp.stampPeriod,
       stampLocation: stamp.stampLocation,
       stampTime:     collected?.stampTime ?? null,
+      stampLatitude: stamp.stampLatitude,
+      stampLongitude: stamp.stampLongitude,
     };
   }
 }

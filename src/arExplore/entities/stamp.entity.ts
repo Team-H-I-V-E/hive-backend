@@ -20,10 +20,10 @@ export class Stamp {
   stampDescription: string;
 
   @Column('decimal', { precision: 30, scale: 18 })
-  stampLatitude: number | null;
+  stampLatitude: number;
 
   @Column('decimal', { precision: 30, scale: 18 })
-  stampLongitude: number | null;
+  stampLongitude: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   stampLocation: string;
