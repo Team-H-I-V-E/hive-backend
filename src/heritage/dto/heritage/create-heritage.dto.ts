@@ -1,37 +1,48 @@
-import { IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsDateString } from 'class-validator';
 
 export class CreateHeritageDto {
-    @IsOptional()
-    @IsNumber()
-    heritageStoryId?: number;
+  @IsOptional()
+  @IsNumber()
+  heritageStoryId?: number;
 
-    @IsOptional()
-    @IsNumber()
-    heritageModelId?: number;
-    
-    @IsString()
-    heritageName: string;
+  @IsOptional()
+  @IsNumber()
+  heritageModelId?: number;
 
-    @IsString()
-    heritageDescription: string;
+  @IsString()
+  heritageName: string;
 
-    @IsOptional()
-    @IsString()
-    heritageYear?: string;
+  @IsString()
+  heritageType: string;      // 유형
 
-    @IsString()
-    heritageLocation: string;
+  @IsString()
+  heritageYear: string;      // 시대
 
-    @IsOptional()
-    @IsNumber()
-    heritageLatitude?: number;
+  @IsString()
+  heritageCategory: string;  // 분류
 
-    @IsOptional()
-    @IsNumber()
-    heritageLongitude?: number;
+  @IsString()
+  heritagePeriodArea: string; // 면적
 
-    @IsOptional()
-    @IsString()
-    heritageImageUrl?: string;
-  
+  @IsOptional()
+  @IsDateString()
+  designationDate?: string;  // 지정일 (ISO 8601 문자열)
+
+  @IsString()
+  heritageLocation: string;
+
+  @IsString()
+  heritageDescription: string;
+
+  @IsOptional()
+  @IsNumber()
+  heritageLatitude?: number;
+
+  @IsOptional()
+  @IsNumber()
+  heritageLongitude?: number;
+
+  @IsOptional()
+  @IsString()
+  heritageImageUrl?: string;
 }

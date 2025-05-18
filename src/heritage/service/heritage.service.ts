@@ -52,11 +52,16 @@ export class HeritageService {
             const heritageList: CreateHeritageDto[] = data.map((item) => ({
                 heritageName: item['명칭'] || '미상',
                 heritageDescription: item['연혁 및 내용'] || '설명 없음',
-                heritageYear: item['시기'] || null,
+                heritageYear: item['시기'] || '',
                 heritageLocation: item['도로명주소'] || '위치 정보 없음',
                 heritageLatitude: item.latitude || 0,
                 heritageLongitude: item.longitude || 0,
-            }));
+                heritageType: item['유형'] || '',
+                heritageCategory: item['분류'] || '',
+                heritagePeriodArea: item['시대/면적'] || '',
+                designationDate: item['지정일'] || undefined, // 지정일이 없으면 undefined로 둠
+              }));
+              
 
             await this.heritageRepository.save(heritageList);
             console.log('유물 데이터가 저장되었습니다');
