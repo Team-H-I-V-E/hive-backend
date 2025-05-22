@@ -18,6 +18,7 @@ import * as sqlite3 from 'sqlite3';
 import { MulterModule } from '@nestjs/platform-express';
 import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
 import { CollectionStampModule } from './collectionStamp/collection.module';
+import { HomeModule } from './home/home.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { CollectionStampModule } from './collectionStamp/collection.module';
     UserModule,
     MiniMapPointModule,
     CollectionStampModule,
+    HomeModule
   ],
   controllers: [],
   providers: [
