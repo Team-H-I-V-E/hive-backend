@@ -28,7 +28,7 @@ export class CollectionStampService {
       stampName: s.stampName,
       acquired:  got.has(s.stampID),
       stampImage: got.has(s.stampID)
-    ? `http://localhost:3000${s.stampImage}`
+    ? `${s.stampImage}`
     : null,
     }));
   }
