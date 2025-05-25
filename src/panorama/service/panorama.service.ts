@@ -9,7 +9,7 @@ export class PanoramaService {
     constructor(
         @InjectRepository(Panorama)
         private panoramaRepository: Repository<Panorama>,
-    ) {}
+    ) { }
 
     async getAllPanorama(): Promise<PanoramaResponseDto[]> {
         const foundPanoramas = await this.panoramaRepository
@@ -29,13 +29,15 @@ export class PanoramaService {
         const foundPanoramaDetail = await this.panoramaRepository
             .createQueryBuilder('panorama')
             .leftJoinAndSelect('panorama.panoramaImages', 'panoramaImages')
+            .leftJoinAndSelect('panorama.miniMapPoints', 'miniMapPoints')
+            .leftJoinAndSelect('miniMapPoints.targetPanoramaImage', 'targetPanoramaImage')
             .where('panorama.panoramaId = :id', { id: panoramaId })
             .getOne();
-    
+
         if (!foundPanoramaDetail) {
             throw new NotFoundException(`Panorama with ID ${panoramaId} not found`);
         }
-    
+
         return foundPanoramaDetail;
     }
 }

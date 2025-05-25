@@ -1,13 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Param, UploadedFiles, UseInterceptors, Req, Query } from '@nestjs/common';
+import { Body, Query, UseGuards, Controller, Get, Post, Put, Delete, Param, UploadedFiles, UseInterceptors, Req} from '@nestjs/common';
 import { Request } from 'express';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-
 import { ArticlesService } from '../service/article.service';
 import { Article } from '../entities/article.entity';
 import { UpdateArticleDto } from '../dto/update-article-request-dto';
 import { ArticleResponseDto } from '../dto/article-response.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/articles')
 export class ArticlesController {

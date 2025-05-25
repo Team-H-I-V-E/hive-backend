@@ -19,6 +19,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
 import { CollectionStampModule } from './collectionStamp/collection.module';
 import { ChatbotModule } from './openai/openai.module';
+import { HomeModule } from './home/home.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { ChatbotModule } from './openai/openai.module';
     MiniMapPointModule,
     CollectionStampModule,
     ChatbotModule
+    HomeModule
   ],
   controllers: [],
   providers: [
