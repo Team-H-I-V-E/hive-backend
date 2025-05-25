@@ -48,7 +48,7 @@ import { HomeModule } from './home/home.module';
     UserModule,
     MiniMapPointModule,
     CollectionStampModule,
-    ChatbotModule
+    ChatbotModule,
     HomeModule
   ],
   controllers: [],
