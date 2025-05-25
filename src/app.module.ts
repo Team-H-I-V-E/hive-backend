@@ -18,6 +18,7 @@ import * as sqlite3 from 'sqlite3';
 import { MulterModule } from '@nestjs/platform-express';
 import { MiniMapPointModule } from './panorama/panorama.miniMap.module';
 import { CollectionStampModule } from './collectionStamp/collection.module';
+import { ChatbotModule } from './openai/openai.module';
 import { HomeModule } from './home/home.module';
 
 @Module({
@@ -47,6 +48,7 @@ import { HomeModule } from './home/home.module';
     UserModule,
     MiniMapPointModule,
     CollectionStampModule,
+    ChatbotModule
     HomeModule
   ],
   controllers: [],
