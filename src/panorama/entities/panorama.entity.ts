@@ -7,19 +7,19 @@ export class Panorama {
     @PrimaryGeneratedColumn()
     panoramaId: number;
 
-    @Column({ nullable: true })
-    ruinsImage: string;
+    @Column({ nullable: true, type: 'text' })
+    ruinsImage: string | null;
 
     @Column()
     ruinsName: string;
 
-    @Column()
+    @Column({ nullable: true })
     ruinsAge: string;
 
     @Column()
     ruinsLocation: string;
 
-    @Column()
+    @Column({ type: 'text' })
     ruinsInformation: string;
 
     @OneToMany(() => PanoramaImage, panoramaImage => panoramaImage.panorama)
@@ -39,4 +39,10 @@ export class Panorama {
 
     @Column({ default: false })
     isStamped: boolean;
+
+    @Column({ nullable: true })
+    ruinsNumber: string;
+
+    @Column({ nullable: true })
+    ruinsDay: string;
 }
